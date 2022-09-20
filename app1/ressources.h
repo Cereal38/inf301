@@ -1,0 +1,3 @@
+
+char* capitalize(char *string);
+

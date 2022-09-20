@@ -21,16 +21,8 @@ int main() {
 
 
     envoyer_recevoir("login 11800672 \"BRUN-COSME-GAZOT\"", reponse);
-    envoyer_recevoir("load TUTORIEL", reponse);
-    envoyer_recevoir("depart", reponse);
-    envoyer_recevoir("OK", reponse);
-    envoyer_recevoir("OUI", reponse);
-
-	int i;
-	for (i = 0; i < 6; i++) {
-		envoyer_recevoir(capitalize(reponse), reponse);
-		printf("%s", reponse);
-	}
+    envoyer_recevoir("load projetX", reponse);
+	printf("%s", reponse);
 
 
     lire_clavier(message);   // message tapé au clavier
