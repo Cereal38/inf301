@@ -7,39 +7,41 @@
 
 #define MAXMSG MAXREP
 
+
 int main() {
     char reponse[MAXREP]; // pour stocker la réponse du serveur
     char message[MAXMSG]; // pour stocker le message à envoyer au serveur
-    char copyReponse[MAXMSG]; // pour stocker le message à envoyer au serveur
+char copyReponse[MAXREP];
 
     // Affiche les échanges avec le serveur (false pour désactiver)
     mode_debug(false);
 
     // Connexion au serveur AppoLab
-    connexion("im2ag-appolab.u-ga.fr", 9999);
-    // utilisez le port 443 en cas de problème sur le 9999
-    /* connexion("im2ag-appolab.u-ga.fr", 443); */
+    connexion("im2ag-appolab.u-ga.fr", 443);
 
-
+// Connexion
     envoyer_recevoir("login 11800672 \"BRUN-COSME-GAZOT\"", reponse);
+printf("%s\n", reponse);
 
-	// Charge l'épreuve
-    envoyer_recevoir("load projetX", reponse);
-	printf("%s", reponse);
+// Appel la commande qui charge crypteWave
+    envoyer_recevoir("load crypteMove", reponse);
+printf("%s\n", reponse);
 
-	// Récupère le message crypté, le décrypte et l'affiche
+// Affiche la manière de crypter
     envoyer_recevoir("help", reponse);
-	strcpy(copyReponse, reponse);
-	cesarDecodeString(copyReponse);
-	printf("%s", copyReponse);
+printf("%s\n", reponse);
 
-	// Démarre le challenge
-    envoyer_recevoir("start", reponse);
-	printf("%s", reponse);
+// On récupère la réponse et on la crypte
+strcpy(copyReponse, reponse);
+encrypteMove(copyReponse);
 
-	// Envoi le message de validation
-    envoyer_recevoir("veni vidi vici", reponse);
-	printf("%s", reponse);
+// Démarre le challenge
+envoyer_recevoir("start", reponse);
+printf("%s\n", reponse);
+
+// On envoit la réponse
+envoyer_recevoir(copyReponse, reponse);
+printf("%s\n", reponse);
 
 
     lire_clavier(message);   // message tapé au clavier
@@ -50,3 +52,5 @@ int main() {
     printf ("Fin de la connection au serveur\n");
     return 0;
 }
+
+

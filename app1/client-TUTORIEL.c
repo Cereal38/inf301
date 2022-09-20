@@ -21,11 +21,13 @@ int main() {
 
 
     envoyer_recevoir("login 11800672 \"BRUN-COSME-GAZOT\"", reponse);
+
     envoyer_recevoir("load TUTORIEL", reponse);
     envoyer_recevoir("depart", reponse);
     envoyer_recevoir("OK", reponse);
     envoyer_recevoir("OUI", reponse);
 
+	// Renvoi les 6 prochaines réponses en caplock
 	int i;
 	for (i = 0; i < 6; i++) {
 		envoyer_recevoir(capitalize(reponse), reponse);

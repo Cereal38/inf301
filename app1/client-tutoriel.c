@@ -19,10 +19,15 @@ int main() {
     /* connexion("im2ag-appolab.u-ga.fr", 443); */
 
 
+	// Login
     envoyer_recevoir("login 11800672 \"BRUN-COSME-GAZOT\"", reponse);
+
+	// Lance l'épreuve
     envoyer_recevoir("load tutoriel", reponse);
     envoyer_recevoir("aide", reponse);
     envoyer_recevoir("start", reponse);
+
+	// Envoi les réponses
     envoyer_recevoir("oui", reponse);
     envoyer_recevoir("4", reponse);
     envoyer_recevoir("blanc", reponse);
