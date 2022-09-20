@@ -15,3 +15,5 @@ app1/ressources
 app1/ressources.o
 app1/client-crypteMove
 app1/client-crypteMove.o
+app1/client-bayOfPigs
+app1/client-bayOfPigs.o
