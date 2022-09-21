@@ -36,8 +36,19 @@ void concatenateFromRight(char* str1, char* str2) {
 
 
 void concatenateFromLeft(char* str1, char* str2) { 
-	concatenateFromRight(str2, str1); 
-	strcpy(str1, str2);
+	int lenStr1;
+	int lenStr2 = strlen(str2);
+	int i;
+	int j;
+	for (i = 0; i < lenStr2; i++) {
+		lenStr1 = strlen(str1);
+		for (j = lenStr1; j >= 0; j--) {
+			str1[j + 1] = str1[j];
+		}
+	}
+	for (i = 0; i < lenStr2; i++) {
+		str1[i] = str2[i];
+	}
 }
 
 
@@ -148,40 +159,48 @@ void decrypteMove(char* str) {
 	// On créé les variables
 	char DEC[MAXREP];
 	char tempString[9];
-	char lastChar;
+	char lastChar[2]; lastChar[1] = '\0';
 	int x;
-	int len;
+	int lenStr;
+	int lenDec = 0;
 
 	// On récupère la longueur de str
-	len = lenString(str);
+	lenStr = lenString(str);
 
 	// On boucle tant qu'il reste des caractères à décrypter
-	while (len > 0) {
+	while (lenStr > 0) {
 
 		// On récupère le dernier caractère de str
-		lastChar = str[len - 1];
+		lastChar[0] = str[lenStr - 1];
 
 		// On calcul x le modulo 8 du code ascii de lastChar
-		x = lastChar % 8;
+		x = lastChar[0] % 8;
 
-		// Si len(str) est plus grande que x
-		if (len > x) {
+		// Si len(DEC) est plus grande que x
+		if (lenDec > x) {
 			
-			// On copie les x derniers char de str dans tempString
-			copyLastChars(tempString, str, x);
+			// On copie les x derniers char de DEC dans tempString
+			copyLastChars(tempString, DEC, x);
 
-			// On insère la chaîne récupéré au début de str
-			concatenateFromLeft(str, tempString);
+			// On supprime les x derniers char de DEC
+			DEC[lenDec - x] = '\0';
+
+			// On insère la chaîne récupéré au début de DEC
+			concatenateFromLeft(DEC, tempString);
 
 		}
 
 		// On insère lastChar au début de DEC
-		concatenateFromLeft(DEC, &lastChar);
+		concatenateFromLeft(DEC, lastChar);
 
 		// Décrémente len
-		len--;
+		lenStr--;
+		lenDec++;
 
 	}
+
+	// On met DEC dans le message de base
+	strcpy(str, DEC);
 
 }
 
@@ -323,7 +342,6 @@ void testFunctions() {
 	assert(strcmp(str1, "Pee ct mosusriae.ttg") == 0);
 	printf("#");
 
-	/*
 	// decrypteMove
 	str1[0] = 'P';
 	str1[1] = 'e';
@@ -349,7 +367,6 @@ void testFunctions() {
 	decrypteMove(str1);
 	assert(strcmp(str1, "Petit message court.") == 0);
 	printf("#");
-	*/
 
 	printf("]\n\n### ALL TEST PASSED ###\n\n");
 
