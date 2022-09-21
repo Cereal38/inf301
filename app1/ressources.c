@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <assert.h>
+#include <stdlib.h>
 
 
 char* capitalize(char *string) {
@@ -98,16 +99,18 @@ void cesarDecodeString(char *string) {
 void encrypteMove(char* str) {
 
 	// On créé les variables
-	char ENC[MAXREP];
+	char* ENC = (char*) malloc(MAXREP * sizeof(char));
 	char tempString[9];
 	char c;
 	int x;
 	int i;
 	int posENC = 0;
 	int len;
+	int lenSave;
 
 	// On récupère la longueur de str
 	len = lenString(str);
+	lenSave = len;
 
 
 	while (len > 0) {
@@ -151,13 +154,19 @@ void encrypteMove(char* str) {
 	// On met ENC dans le message de base
 	strcpy(str, ENC);
 
+	// On termine la chaîne pour éviter une erreur de mémoire
+	str[lenSave] = '\0';
+
+	// On libère la mémoire
+	free(ENC);
+
 }
 
 
 void decrypteMove(char* str) {
 
 	// On créé les variables
-	char DEC[MAXREP];
+	char* DEC = (char*) malloc(MAXREP * sizeof(char));
 	char tempString[9];
 	char lastChar[2]; lastChar[1] = '\0';
 	int x;
@@ -201,6 +210,9 @@ void decrypteMove(char* str) {
 
 	// On met DEC dans le message de base
 	strcpy(str, DEC);
+
+	// On libère la mémoire
+	free(DEC);
 
 }
 

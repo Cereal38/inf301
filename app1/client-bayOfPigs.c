@@ -10,6 +10,7 @@
 int main() {
     char reponse[MAXREP]; // pour stocker la réponse du serveur
     char message[MAXMSG]; // pour stocker le message à envoyer au serveur
+    char motDePasse[100]; // pour stocker le message à envoyer au serveur
 
 	// Test de toutes les fonctions
 	testFunctions();
@@ -18,7 +19,7 @@ int main() {
     mode_debug(false);
 
     // Connexion au serveur AppoLab
-    connexion("im2ag-appolab.u-ga.fr", 9999);
+    connexion("im2ag-appolab.u-ga.fr", 443);
     // utilisez le port 443 en cas de problème sur le 9999
     /* connexion("im2ag-appolab.u-ga.fr", 443); */
 
@@ -35,13 +36,20 @@ int main() {
 	cesarDecodeString(reponse);
 	printf("%s\n==========================================================\n", reponse);
 
-
-	/*
 	// Démarre l'épreuve, recupère la réponse, la décrypte et l'affiche
     envoyer_recevoir("start", reponse);
 	decrypteMove(reponse);
 	printf("%s\n==========================================================\n", reponse);
-	*/
+
+	// Crypte le mot de passe, l'envoi et affiche la réponse
+	strcpy(motDePasse, "Patria o muerte");
+	encrypteMove(motDePasse);
+	envoyer_recevoir(motDePasse, reponse);
+	printf("%s\n==========================================================\n", reponse);
+
+	// Décypte la réponse et l'affiche
+	decrypteMove(reponse);
+	printf("%s\n==========================================================\n", reponse);
 
 
     lire_clavier(message);   // message tapé au clavier

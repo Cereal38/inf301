@@ -12,6 +12,9 @@ int main() {
     char message[MAXMSG]; // pour stocker le message à envoyer au serveur
     char copyReponse[MAXMSG]; // pour stocker le message à envoyer au serveur
 
+	// Test de toutes les fonctions
+	testFunctions();
+
     // Affiche les échanges avec le serveur (false pour désactiver)
     mode_debug(false);
 

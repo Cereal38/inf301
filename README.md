@@ -6,5 +6,6 @@ Lien vers Appolab : http://im2ag-appolab.u-ga.fr
  - client-introduction
  - client-tutoriel
  - client-TUTORIEL
- - client-projetX -> Renvoit message de planB
- - client-crypteMove
+ - client-projetX       -> (Bonus) Renvoit message de planB
+ - client-crypteMove    -> (Bonus) Renvoit vers OneMillion
+ - client-crypteSeq
