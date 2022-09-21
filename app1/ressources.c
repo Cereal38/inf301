@@ -73,6 +73,29 @@ void copyLastChars(char* str1, char* str2, int n) {
 }
 
 
+int indexPreviousChar(char* str, char c) {
+	/* Renvoit la position du caractère précédent c, ou -1 si c n'est pas dans str */
+
+	int index = 0;
+
+	// On récupère l'index du caractère c (s'il existe)
+	while ((str[index] != c) && (str[index] != '\0')) { index++; }
+
+	if ((str[index] == c) && (index != 0)) { index--; }
+	else if (index == 0) { index = lenString(str) - 1; }
+	else { index = -1; }
+
+	return index;
+}
+
+
+char popFirstChar(char* str) {
+	char c = str[0];
+	deleteFirstChar(str);
+	return c;
+}
+
+
 char cesarDecodeChar(char c) {
 
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
@@ -217,6 +240,21 @@ void decrypteMove(char* str) {
 }
 
 
+void encrypteSeq (char* str) {
+
+	// On créé les variables
+	char* ENC = (char*) malloc(MAXREP * sizeof(char));
+	char* seq = (char*) malloc(1000 * sizeof(char));
+
+	str[0] = 1;
+
+	// On libère la mémoire
+	free(ENC);
+	free(seq);
+
+}
+
+
 void testFunctions() {
 
 	char str1[100];
@@ -228,84 +266,64 @@ void testFunctions() {
 
 
 	// capitalize
-	str1[0] = 'a';
-	str1[1] = 'b';
-	str1[2] = 'c';
-	str1[3] = '\0';
+	strcpy(str1, "abc");
 	assert(strcmp(capitalize(str1), "ABC") == 0);
 	printf("#");
 
 	
 	// deleteFirstChar
-	str1[0] = 'a';
-	str1[1] = 'b';
-	str1[2] = 'c';
-	str1[3] = '\0';
+	strcpy(str1, "abc");
 	deleteFirstChar(str1);
 	assert(strcmp(str1, "bc") == 0);
 	printf("#");
 	
 
 	// concatenateFromRight
-	str1[0] = 'a';
-	str1[1] = 'b';
-	str1[2] = 'c';
-	str1[3] = '\0';
-	str2[0] = 'd';
-	str2[1] = 'e';
-	str2[2] = 'f';
-	str2[3] = 'g';
-	str2[4] = '\0';
+	strcpy(str1, "abc");
+	strcpy(str2, "defg");
 	concatenateFromRight(str1, str2);
 	assert(strcmp(str1, "abcdefg") == 0);
 	printf("#");
 
 
 	// concatenateFromLeft
-	str1[0] = 'a';
-	str1[1] = 'b';
-	str1[2] = 'c';
-	str1[3] = '\0';
-	str2[0] = 'd';
-	str2[1] = 'e';
-	str2[2] = 'f';
-	str2[3] = 'g';
-	str2[4] = '\0';
+	strcpy(str1, "abc");
+	strcpy(str2, "defg");
 	concatenateFromLeft(str1, str2);
 	assert(strcmp(str1, "defgabc") == 0);
-	str1[0] = 'a';
-	str1[1] = 'b';
-	str1[2] = 'c';
-	str1[3] = '\0';
-	str2[0] = 'd';
-	str2[1] = '\0';
+	strcpy(str1, "abc");
+	strcpy(str2, "d");
 	concatenateFromLeft(str1, str2);
 	assert(strcmp(str1, "dabc") == 0);
 	printf("#");
 
 
 	// lenString
-	str1[0] = 'a';
-	str1[1] = 'b';
-	str1[2] = 'c';
-	str1[3] = '\0';
+	strcpy(str1, "abc");
 	assert(lenString(str1) == 3);
 	printf("#");
 
 
 	// copyLastChars
-	str1[0] = 'a';
-	str1[1] = 'b';
-	str1[2] = 'c';
-	str1[3] = '\0';
-	str2[0] = 'd';
-	str2[1] = 'e';
-	str2[2] = 'f';
-	str2[3] = 'g';
-	str2[4] = '\0';
+	strcpy(str1, "abc");
+	strcpy(str2, "defg");
 	copyLastChars(str1, str2, 2);
 	assert(strcmp(str1, "fg") == 0);
 	printf("#");
+
+
+	// indexPreviousChar
+	strcpy(str1, "abc");
+	assert(indexPreviousChar(str1, 'a') == 2);
+	assert(indexPreviousChar(str1, 'b') == 0);
+	assert(indexPreviousChar(str1, 'z') == -1);
+
+
+	// popFirstChar
+	strcpy(str1, "abc");
+	c = popFirstChar(str1);
+	assert(c == 'a');
+	assert(strcmp(str1, "bc") == 0);
 
 
 	// cesarDecodeChar
@@ -319,66 +337,25 @@ void testFunctions() {
 
 
 	// cesarDecodeString
-	str1[0] = 'G';
-	str1[1] = 't';
-	str1[2] = 'g';
-	str1[3] = '\0';
+	strcpy(str1, "Gtg");
 	cesarDecodeString(str1);
 	assert(strcmp(str1, "Bob") == 0);
 	printf("#");
 
 
 	// encrypteMove
-	str1[0] = 'P';
-	str1[1] = 'e';
-	str1[2] = 't';
-	str1[3] = 'i';
-	str1[4] = 't';
-	str1[5] = ' ';
-	str1[6] = 'm';
-	str1[7] = 'e';
-	str1[8] = 's';
-	str1[9] = 's';
-	str1[10] = 'a';
-	str1[11] = 'g';
-	str1[12] = 'e';
-	str1[13] = ' ';
-	str1[14] = 'c';
-	str1[15] = 'o';
-	str1[16] = 'u';
-	str1[17] = 'r';
-	str1[18] = 't';
-	str1[19] = '.';
-	str1[20] = '\0';
+	strcpy(str1, "Petit message court.");
 	encrypteMove(str1);
 	assert(strcmp(str1, "Pee ct mosusriae.ttg") == 0);
 	printf("#");
 
 	// decrypteMove
-	str1[0] = 'P';
-	str1[1] = 'e';
-	str1[2] = 'e';
-	str1[3] = ' ';
-	str1[4] = 'c';
-	str1[5] = 't';
-	str1[6] = ' ';
-	str1[7] = 'm';
-	str1[8] = 'o';
-	str1[9] = 's';
-	str1[10] = 'u';
-	str1[11] = 's';
-	str1[12] = 'r';
-	str1[13] = 'i';
-	str1[14] = 'a';
-	str1[15] = 'e';
-	str1[16] = '.';
-	str1[17] = 't';
-	str1[18] = 't';
-	str1[19] = 'g';
-	str1[20] = '\0';
+	strcpy(str1, "Pee ct mosusriae.ttg");
 	decrypteMove(str1);
 	assert(strcmp(str1, "Petit message court.") == 0);
 	printf("#");
+
+	// encrypteSeq
 
 	printf("]\n\n### ALL TEST PASSED ###\n\n");
 

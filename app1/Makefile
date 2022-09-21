@@ -1,7 +1,7 @@
 CC=clang
 CFLAGS=-g -Wall -Wextra -Werror
 
-EXEC=client-introduction client-tutoriel client-interactif client-TUTORIEL client-projetX client-crypteMove client-bayOfPigs
+EXEC=client-introduction client-tutoriel client-interactif client-TUTORIEL client-projetX client-crypteMove client-bayOfPigs client-crypteSeq
 
 all: $(EXEC)
 
@@ -18,6 +18,8 @@ client-projetX: client-projetX.o client.o ressources.o
 client-crypteMove: client-crypteMove.o client.o ressources.o
 
 client-bayOfPigs: client-bayOfPigs.o client.o ressources.o
+
+client-crypteSeq: client-crypteSeq.o client.o ressources.o
 
 client.o: client.c client.h
 

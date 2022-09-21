@@ -41,13 +41,10 @@ int main() {
 	decrypteMove(reponse);
 	printf("%s\n==========================================================\n", reponse);
 
-	// Crypte le mot de passe, l'envoi et affiche la réponse
+	// Crypte le mot de passe, l'envoi et affiche la réponse décrypté
 	strcpy(motDePasse, "Patria o muerte");
 	encrypteMove(motDePasse);
 	envoyer_recevoir(motDePasse, reponse);
-	printf("%s\n==========================================================\n", reponse);
-
-	// Décypte la réponse et l'affiche
 	decrypteMove(reponse);
 	printf("%s\n==========================================================\n", reponse);
 
