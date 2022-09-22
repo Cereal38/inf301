@@ -7,6 +7,7 @@ int lenString(char* str);
 void copyLastChars(char* str1, char* str2, int n);
 int indexPreviousChar(char* str, char c);
 char popFirstChar(char* str);
+void moveCharToEnd(char* str, char c);
 
 char cesarDecodeChar(char c);
 void cesarDecodeString(char *string);

@@ -96,6 +96,17 @@ char popFirstChar(char* str) {
 }
 
 
+void moveCharToEnd(char* str, char c) {
+	// Permet d'obtenir la première position du char dans la chaîne
+	int index;
+	while (str[index] != c && str[index] != '\0') {
+		index++;
+	}
+	
+	int len = strLen(str);
+}
+
+
 char cesarDecodeChar(char c) {
 
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
@@ -317,6 +328,7 @@ void testFunctions() {
 	assert(indexPreviousChar(str1, 'a') == 2);
 	assert(indexPreviousChar(str1, 'b') == 0);
 	assert(indexPreviousChar(str1, 'z') == -1);
+	printf("#");
 
 
 	// popFirstChar
@@ -324,6 +336,24 @@ void testFunctions() {
 	c = popFirstChar(str1);
 	assert(c == 'a');
 	assert(strcmp(str1, "bc") == 0);
+	printf("#");
+
+
+	// moveCharToEnd
+	strcpy(str1, "abcdefg");
+	c = 'd';
+	moveCharToEnd(str1, c);
+	assert(strcmp(str1, "abcefgd") == 0);
+	strcpy(str1, "abcdefg");
+	c = 'g';
+	moveCharToEnd(str1, c);
+	assert(strcmp(str1, "abcdefg") == 0);
+	strcpy(str1, "abcdefg");
+	c = 'h';
+	moveCharToEnd(str1, c);
+	assert(strcmp(str1, "abcdefg") == 0);
+	printf("#");
+
 
 
 	// cesarDecodeChar
