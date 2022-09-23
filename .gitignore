@@ -21,3 +21,5 @@ app1/client-crypteSeq
 app1/client-crypteSeq.o
 app1/client-northwoods
 app1/client-northwoods.o
+app1/client-lostCause
+app1/client-lostCause.c
