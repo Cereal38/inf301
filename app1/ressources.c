@@ -89,6 +89,23 @@ int indexPreviousChar(char* str, char c) {
 }
 
 
+int indexNextChar(char* str, char c) {
+	/* Renvoit la position du caractère suivant c, ou -1 si c n'est pas dans str */
+
+	int index = 0;
+	int indexLastChar = lenString(str) - 1;
+
+	// On récupère l'index du caractère c (s'il existe)
+	while ((str[index] != c) && (str[index] != '\0')) { index++; }
+
+	if ((str[index] == c) && (index != indexLastChar)) { index++; }
+	else if (index == indexLastChar) { index = 0; }
+	else { index = -1; }
+
+	return index;
+}
+
+
 char popFirstChar(char* str) {
 	char c = str[0];
 	deleteFirstChar(str);
@@ -104,7 +121,7 @@ void moveCharToEnd(char* str, char c) {
 	}
 
 	// Si le char n'est pas présent dans la chaîne on n'exécute pas la suite
-	if (str[index] != c) { 
+	if (str[index] == c) { 
 		
 		int len = lenString(str);
 
@@ -119,6 +136,38 @@ void moveCharToEnd(char* str, char c) {
 		str[len - 1] = c;
 
 	}
+}
+
+
+int isCharInString(char* str, char c) {
+	int i = 0;
+	while (str[i] != '\0') {
+		if (str[i] == c) { return 1; }
+		i++;
+	}
+	return 0;
+}
+
+
+void appendChar(char* str, char c) {
+	int len = lenString(str);
+	str[len] = c;
+	str[len + 1] = '\0';
+}
+
+
+void clearString(char* str, int len) {
+	for (int i = 0; i < len; i++) { str[i] = '\0'; }
+}
+
+
+char* deleteFirstLines(char* str, int n) {
+	int i = 0;
+	while (n > 0 && str[0] != '\0') {
+		if (str[i] == '\n') { n--; }
+		i++;
+	}
+	return &str[i];
 }
 
 
@@ -149,6 +198,7 @@ void encrypteMove(char* str) {
 
 	// On créé les variables
 	char* ENC = (char*) malloc(MAXREP * sizeof(char));
+	clearString(ENC, MAXREP);
 	char tempString[9];
 	char c;
 	int x;
@@ -216,6 +266,7 @@ void decrypteMove(char* str) {
 
 	// On créé les variables
 	char* DEC = (char*) malloc(MAXREP * sizeof(char));
+	clearString(DEC, MAXREP);
 	char tempString[9];
 	char lastChar[2]; lastChar[1] = '\0';
 	int x;
@@ -266,25 +317,120 @@ void decrypteMove(char* str) {
 }
 
 
-void encrypteSeq (char* str) {
+void encrypteSeq(char* str) {
 
 	// On créé les variables
-	char* ENC = (char*) malloc(MAXREP * sizeof(char));
+	char* enc = (char*) malloc(MAXREP * sizeof(char));
+	clearString(enc, MAXREP);
 	char* seq = (char*) malloc(1000 * sizeof(char));
+	clearString(seq, 1000);
+	char c;
+	int indexPrev = 0;
 
-	str[0] = 1;
+	// On parcours la chaîne et on applique l'algo à chaque caractère
+	int i = 0;
+	while (str[i] != '\0') {
+
+		// On récupère le caractère
+		c = str[i];
+
+		// On regarde si le caractère se trouve dans seq et on procède en conséquent
+		if (isCharInString(seq, c)) {
+
+			// Si le caractère est déjà dans seq, on recupère l'index du caractère précédent
+			indexPrev = indexPreviousChar(seq, c);
+
+			// On ajoute le caractère précédent c à la fin de enc
+			appendChar(enc, seq[indexPrev]);
+
+			// On déplace le caractère c à la fin de seq
+			moveCharToEnd(seq, c);
+
+		} else {
+
+			// Si le caractère n'est pas dans seq, on l'ajoute
+			appendChar(seq, c);
+
+			// On ajoute le caractère à enc
+			appendChar(enc, c);
+
+		}
+
+		i++;
+
+	}
+
+	// On met enc dans le message de base
+	strcpy(str, enc);
 
 	// On libère la mémoire
-	free(ENC);
+	free(enc);
 	free(seq);
 
 }
+
+
+void decrypteSeq(char* str) {
+
+	// On créé les variables
+	char* dec = (char*) malloc(MAXREP * sizeof(char));
+	clearString(dec, MAXREP);
+	char* seq = (char*) malloc(1000 * sizeof(char));
+	clearString(seq, 1000);
+	char c;
+	char cDecrypt;
+	int indexSuiv = 0;
+
+	// On parcours la chaîne et on applique l'algo à chaque caractère
+	int i = 0;
+	while (str[i] != '\0') {
+
+		// On récupère le caractère
+		c = str[i];
+
+		// On regarde si le caractère se trouve dans seq et on procède en conséquent
+		if (isCharInString(seq, c)) {
+
+			// Si le caractère est déjà dans seq, on recupère le caractère suivant
+			indexSuiv = indexNextChar(seq, c);
+			cDecrypt = seq[indexSuiv];
+
+			// On ajoute le caractère suivant c à la fin de dec
+			appendChar(dec, cDecrypt);
+
+			// On déplace le caractère suivant c à la fin de seq
+			moveCharToEnd(seq, cDecrypt);
+
+		} else {
+
+			// Si le caractère n'est pas dans seq, on l'ajoute
+			appendChar(seq, c);
+
+			// On ajoute le caractère à dec
+			appendChar(dec, c);
+
+		}
+
+		i++;
+
+	}
+
+	// On met dec dans le message de base
+	strcpy(str, dec);
+
+	// On libère la mémoire
+	free(dec);
+	free(seq);
+
+}
+
 
 
 void testFunctions() {
 
 	char str1[100];
 	char str2[100];
+	char* str3 = (char*) malloc(100 * sizeof(char));
 	char c;
 
 
@@ -346,6 +492,14 @@ void testFunctions() {
 	printf("#");
 
 
+	// indexNextChar
+	strcpy(str1, "abc");
+	assert(indexNextChar(str1, 'a') == 1);
+	assert(indexNextChar(str1, 'c') == 0);
+	assert(indexNextChar(str1, 'z') == -1);
+	printf("#");
+
+
 	// popFirstChar
 	strcpy(str1, "abc");
 	c = popFirstChar(str1);
@@ -366,8 +520,44 @@ void testFunctions() {
 	strcpy(str1, "abcdefg");
 	c = 'h';
 	moveCharToEnd(str1, c);
-	printf("str1 = %s\n", str1);
 	assert(strcmp(str1, "abcdefg") == 0);
+	printf("#");
+
+
+	// isCharInString
+	strcpy(str1, "abc");
+	assert(isCharInString(str1, 'a') == 1);
+	assert(isCharInString(str1, 'b') == 1);
+	assert(isCharInString(str1, 'c') == 1);
+	assert(isCharInString(str1, 'd') == 0);
+	printf("#");
+
+
+	// appendChar
+	strcpy(str1, "abc");
+	appendChar(str1, 'd');
+	assert(strcmp(str1, "abcd") == 0);
+	strcpy(str1, "");
+	appendChar(str1, 'a');
+	assert(strcmp(str1, "a") == 0);
+	printf("#");
+
+
+	// clearString
+	strcpy(str1, "abc");
+	clearString(str1, 3);
+	assert(strcmp(str1, "") == 0);
+	printf("#");
+
+
+	// deleteFirstLines
+	strcpy(str1, "abc\ndef\nghi\njkl");
+	str3 = deleteFirstLines(str1, 2);
+	assert(strcmp(str3, "ghi\njkl") == 0);
+	strcpy(str1, "abc\ndef\nghi\njkl");
+	str3 = deleteFirstLines(str3, 0);
+	assert(strcmp(str1, "abc\ndef\nghi\njkl") == 0);
+	strcpy(str1, "abc\ndef\nghi\njkl");
 	printf("#");
 
 
@@ -394,13 +584,27 @@ void testFunctions() {
 	assert(strcmp(str1, "Pee ct mosusriae.ttg") == 0);
 	printf("#");
 
+
 	// decrypteMove
 	strcpy(str1, "Pee ct mosusriae.ttg");
 	decrypteMove(str1);
 	assert(strcmp(str1, "Petit message court.") == 0);
 	printf("#");
 
+
 	// encrypteSeq
+	strcpy(str1, "abcbcca");
+	encrypteSeq(str1);
+	assert(strcmp(str1, "abcaabc") == 0);
+	printf("#");
+	
+
+	// decrypteSeq
+	strcpy(str1, "abcaabc");
+	decrypteSeq(str1);
+	assert(strcmp(str1, "abcbcca") == 0);
+	printf("#");
+	
 
 	printf("]\n\n### ALL TEST PASSED ###\n\n");
 

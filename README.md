@@ -8,4 +8,4 @@ Lien vers Appolab : http://im2ag-appolab.u-ga.fr
  - client-TUTORIEL
  - client-projetX       -> (Bonus) Renvoit message de planB
  - client-crypteMove    -> (Bonus) Renvoit vers OneMillion
- - client-crypteSeq
+ - client-crypteSeq		-> Northwoods (mdp : "hasta la victoria siempre")

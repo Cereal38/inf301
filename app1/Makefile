@@ -1,4 +1,4 @@
-CC=clang
+CC=clang -g
 CFLAGS=-g -Wall -Wextra -Werror
 
 EXEC=client-introduction client-tutoriel client-interactif client-TUTORIEL client-projetX client-crypteMove client-bayOfPigs client-crypteSeq
