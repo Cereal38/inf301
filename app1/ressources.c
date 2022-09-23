@@ -98,12 +98,27 @@ char popFirstChar(char* str) {
 
 void moveCharToEnd(char* str, char c) {
 	// Permet d'obtenir la première position du char dans la chaîne
-	int index;
+	int index = 0;
 	while (str[index] != c && str[index] != '\0') {
 		index++;
 	}
-	
-	int len = strLen(str);
+
+	// Si le char n'est pas présent dans la chaîne on n'exécute pas la suite
+	if (str[index] != c) { 
+		
+		int len = lenString(str);
+
+		// Décale tout les caractères après la postion trouvé de 1 vers la gauche
+		int i = index;
+		while (i < len) {
+			str[i] = str[i + 1];
+			i++;
+		}
+
+		// On insère le caractère à la fin de la chaîne
+		str[len - 1] = c;
+
+	}
 }
 
 
@@ -351,9 +366,9 @@ void testFunctions() {
 	strcpy(str1, "abcdefg");
 	c = 'h';
 	moveCharToEnd(str1, c);
+	printf("str1 = %s\n", str1);
 	assert(strcmp(str1, "abcdefg") == 0);
 	printf("#");
-
 
 
 	// cesarDecodeChar
