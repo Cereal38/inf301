@@ -13,6 +13,7 @@ int isCharInString(char* str, char c);
 void appendChar(char* str, char c);
 void clearString(char* str, int len);
 char* deleteFirstLines(char* str, int n);
+void cutString(char* str, int start, int end);
 
 char cesarDecodeChar(char c);
 void cesarDecodeString(char *string);

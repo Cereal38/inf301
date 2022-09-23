@@ -6,6 +6,9 @@ Lien vers Appolab : http://im2ag-appolab.u-ga.fr
  - client-introduction
  - client-tutoriel
  - client-TUTORIEL
- - client-projetX       -> (Bonus) Renvoit message de planB
- - client-crypteMove    -> (Bonus) Renvoit vers OneMillion
+ - client-projetX       -> (Bonus) Renvoi message de planB
+ - client-crypteMove    -> (Bonus) Renvoi vers OneMillion
  - client-crypteSeq		-> Northwoods (mdp : "hasta la victoria siempre")
+ - client-northwoods	-> (Bonus) Renvoi vers LostCause (Demande la clé privée du réseau)
+						   Check message d'aide
+						-> BraveNewWorld

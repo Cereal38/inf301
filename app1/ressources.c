@@ -171,6 +171,14 @@ char* deleteFirstLines(char* str, int n) {
 }
 
 
+void cutString(char* str, int start, int end) {
+	/* Découpe la chaîne. start et end inclus */
+	int i;
+	for (i = 0; i < start; i++) { deleteFirstChar(str); end--; }
+	str[end+1] = '\0';
+}
+
+
 char cesarDecodeChar(char c) {
 
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
@@ -558,6 +566,19 @@ void testFunctions() {
 	str3 = deleteFirstLines(str3, 0);
 	assert(strcmp(str1, "abc\ndef\nghi\njkl") == 0);
 	strcpy(str1, "abc\ndef\nghi\njkl");
+	printf("#");
+
+
+	// cutString
+	strcpy(str1, "abcdef");
+	cutString(str1, 2, 4);
+	assert(strcmp(str1, "cde") == 0);
+	strcpy(str1, "abcdef");
+	cutString(str1, 0, 0);
+	assert(strcmp(str1, "a") == 0);
+	strcpy(str1, "abcdef");
+	cutString(str1, 3, 5);
+	assert(strcmp(str1, "def") == 0);
 	printf("#");
 
 
