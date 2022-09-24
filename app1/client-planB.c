@@ -10,7 +10,9 @@
 int main() {
     char reponse[MAXREP]; // pour stocker la réponse du serveur
     char message[MAXMSG]; // pour stocker le message à envoyer au serveur
-    char copyReponse[MAXMSG]; // pour stocker le message à envoyer au serveur
+	int shift;
+	char password[100];
+	strcpy(password, "hasta la revolucion");
 
 	// Test de toutes les fonctions
 	testFunctions();
@@ -27,22 +29,26 @@ int main() {
     envoyer_recevoir("login 11800672 \"BRUN-COSME-GAZOT\"", reponse);
 
 	// Charge l'épreuve et affiche le message
-    envoyer_recevoir("load projetX", reponse);
+    envoyer_recevoir("load planB", reponse);
 	printf("%s\n==========================================================\n", reponse);
 
-	// Récupère le message crypté, le décrypte et l'affiche
-    envoyer_recevoir("help", reponse);
-	strcpy(copyReponse, reponse);
-	cesarDecodeString(copyReponse, 5);
-	printf("%s\n==========================================================\n", copyReponse);
-
-	// Démarre le challenge et affiche le message
-    envoyer_recevoir("start", reponse);
+	// Affiche le message d'aide décrypté et recupère la valeur du décalage
+	envoyer_recevoir("aide", reponse);
+	shift = reponse[0] - 'C';
+	cesarDecodeString(reponse, shift);
 	printf("%s\n==========================================================\n", reponse);
 
-	// Envoi le message de validation et affiche la réponse
-    envoyer_recevoir("veni vidi vici", reponse);
+	// Démarre le challenge et affiche la réponse
+	envoyer_recevoir("start", reponse);
 	printf("%s\n==========================================================\n", reponse);
+
+	// Envoi le mot de passe crypté et affiche la réponse
+	cesarDecodeString(password, 26-shift);
+	printf("Shift : %d / Shift2 : %d / Mot de passe : %s\n", 26-shift, shift*-1, password);
+	envoyer_recevoir(password, reponse);
+	printf("%s\n==========================================================\n", reponse);
+	printf("%c\n==========================================================\n", reponse[68]);
+	printf("%d\n==========================================================\n", reponse[68] - 'h');
 
 
     lire_clavier(message);   // message tapé au clavier

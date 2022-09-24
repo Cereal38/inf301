@@ -28,12 +28,12 @@ int main() {
 
 	// Charge l'épreuve, décrypte et affiche la réponse
     envoyer_recevoir("load BayOfPigs", reponse);
-	cesarDecodeString(reponse);
+	cesarDecodeString(reponse, 5);
 	printf("%s\n==========================================================\n", reponse);
 
 	// Appel le message d'aide, le décrypte et l'affiche
     envoyer_recevoir("help", reponse);
-	cesarDecodeString(reponse);
+	cesarDecodeString(reponse, 5);
 	printf("%s\n==========================================================\n", reponse);
 
 	// Démarre l'épreuve, recupère la réponse, la décrypte et l'affiche

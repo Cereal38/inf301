@@ -15,9 +15,8 @@ void clearString(char* str, int len);
 char* deleteFirstLines(char* str, int n);
 void cutString(char* str, int start, int end);
 
-char cesarDecodeChar(char c);
-void cesarDecodeString(char *string);
-
+char cesarDecodeChar(char c, int shift);
+void cesarDecodeString(char *string, int shift);
 void encrypteMove(char* str);
 void decrypteMove(char* str);
 void encrypteSeq(char* str);

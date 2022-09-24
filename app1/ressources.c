@@ -179,12 +179,24 @@ void cutString(char* str, int start, int end) {
 }
 
 
-char cesarDecodeChar(char c) {
+char cesarDecodeChar(char c, int shift) {
 
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
-		for (int i = 0; i < 5; i++) {
-			if (c != 'a') {	c--; }
-			else { c = 'z'; }
+
+		if (shift > 0) {
+			for (int i = 0; i < shift; i++) {
+				if (c != 'a' && c != 'A') { c--; }
+				else if (c == 'a') { c = 'z'; }
+				else if (c == 'A') { c = 'Z'; }
+			}
+		}
+
+		else if (shift < 0) {
+			for (int i = 0; i > shift; i--) {
+				if (c != 'z' && c != 'Z') { c++; }
+				else if (c == 'z') { c = 'a'; }
+				else if (c == 'Z') { c = 'A'; }
+			}
 		}
 	}
 
@@ -193,10 +205,10 @@ char cesarDecodeChar(char c) {
 }
 
 
-void cesarDecodeString(char *string) {
+void cesarDecodeString(char *string, int shift) {
 
 	for (int i = 0; string[i]; i++) {
-		string[i] = cesarDecodeChar(string[i]);
+		string[i] = cesarDecodeChar(string[i], shift);
 	}
 
 }
@@ -584,18 +596,28 @@ void testFunctions() {
 
 	// cesarDecodeChar
 	c = 'g';
-	assert(cesarDecodeChar(c) == 'b');
+	assert(cesarDecodeChar(c, 5) == 'b');
 	c = 'G';
-	assert(cesarDecodeChar(c) == 'B');
+	assert(cesarDecodeChar(c, 1) == 'F');
+	c = 'B';
+	assert(cesarDecodeChar(c, 5) == 'W');
 	c = 'b';
-	assert(cesarDecodeChar(c) == 'w');
+	assert(cesarDecodeChar(c, -3) == 'e');
+	c = 'b';
+	assert(cesarDecodeChar(c, -26) == 'b');
 	printf("#");
 
 
 	// cesarDecodeString
 	strcpy(str1, "Gtg");
-	cesarDecodeString(str1);
+	cesarDecodeString(str1, 5);
 	assert(strcmp(str1, "Bob") == 0);
+	strcpy(str1, "Gtg");
+	cesarDecodeString(str1, -1);
+	assert(strcmp(str1, "Huh") == 0);
+	strcpy(str1, "Gtg");
+	cesarDecodeString(str1, 26);
+	assert(strcmp(str1, "Gtg") == 0);
 	printf("#");
 
 
