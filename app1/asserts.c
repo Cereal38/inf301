@@ -9,10 +9,13 @@
 void testAll() {
 
 	char str1[100];
-	char str2[100];
-	char* str3 = (char*) malloc(100 * sizeof(char));
+	char str2[100]; 
+	char* str3 = (char*) malloc(100 * sizeof(char)); 
 	char c;
-
+	Head linkedList1;
+	Head linkedList2;
+	Node * currentNode = (Node *) malloc(sizeof(Node));
+	int i;
 
 	printf("TEST [");
 
@@ -195,6 +198,24 @@ void testAll() {
 	printf("#");
 
 
+	// decrypteMoveLinkedList
+	strcpy(str1, "Pee ct mosusriae.ttg");
+	linkedList1 = initLinkedList();
+	linkedList2 = initLinkedList();
+	for (i = 0; i < lenString(str1); i++) { addNodeEnd(&linkedList1, str1[i]); }
+	linkedList2 = decrypteMoveLinkedList(&linkedList1);
+	currentNode = linkedList2.first;
+	i = 0;
+	while (currentNode->next != NULL) {
+		str1[i] = currentNode->data;
+		currentNode = currentNode->next;
+		i++;
+	}
+	str1[i] = currentNode->data;
+	assert(strcmp(str1, "Petit message court.") == 0);
+	printf("#");
+
+
 	// encrypteSeq
 	strcpy(str1, "abcbcca");
 	encrypteSeq(str1);
@@ -207,7 +228,83 @@ void testAll() {
 	decrypteSeq(str1);
 	assert(strcmp(str1, "abcbcca") == 0);
 	printf("#");
-	
+
+
+	// initLinkedList
+	linkedList1 = initLinkedList();
+	assert(linkedList1.len == 0);
+	assert(linkedList1.first == NULL);
+	assert(linkedList1.last == NULL);
+	printf("#");
+
+
+	// addNodeStart
+	linkedList1 = initLinkedList();
+	addNodeStart(&linkedList1, 'b');
+	addNodeStart(&linkedList1, 'a');
+	assert(linkedList1.len == 2);
+	assert(linkedList1.first->data == 'a');
+	assert(linkedList1.first->next->data == 'b');
+	assert(linkedList1.first->next->next == NULL);
+	assert(linkedList1.first->data == 'a');
+	assert(linkedList1.last->data == 'b');
+	printf("#");
+
+
+	// addNodeEnd
+	linkedList1 = initLinkedList();
+	addNodeEnd(&linkedList1, 'a');
+	addNodeEnd(&linkedList1, 'b');
+	assert(linkedList1.len == 2);
+	assert(linkedList1.first->data == 'a');
+	assert(linkedList1.first->next->data == 'b');
+	assert(linkedList1.first->next->next == NULL);
+	assert(linkedList1.first->data == 'a');
+	assert(linkedList1.last->data == 'b');
+	printf("#");
+
+
+	// removeNodeStart
+	linkedList1 = initLinkedList();
+	addNodeEnd(&linkedList1, 'a');
+	addNodeEnd(&linkedList1, 'b');
+	addNodeEnd(&linkedList1, 'c');
+	removeNodeStart(&linkedList1);
+	assert(linkedList1.len == 2);
+	assert(linkedList1.first->data == 'b');
+	assert(linkedList1.last->data == 'c');
+	assert(linkedList1.first->next->data == 'c');
+	assert(linkedList1.last->prev->data == 'b');
+	removeNodeStart(&linkedList1);
+	assert(linkedList1.first == linkedList1.last);
+	removeNodeStart(&linkedList1);
+	removeNodeStart(&linkedList1);
+	assert(linkedList1.len == 0);
+	assert(linkedList1.first == NULL);
+	assert(linkedList1.last == NULL);
+	printf("#");
+
+
+	// removeNodeEnd
+	linkedList1 = initLinkedList();
+	addNodeEnd(&linkedList1, 'a');
+	addNodeEnd(&linkedList1, 'b');
+	addNodeEnd(&linkedList1, 'c');
+	removeNodeEnd(&linkedList1);
+	assert(linkedList1.len == 2);
+	assert(linkedList1.first->data == 'a');
+	assert(linkedList1.last->data == 'b');
+	assert(linkedList1.first->next->data == 'b');
+	assert(linkedList1.last->prev->data == 'a');
+	removeNodeStart(&linkedList1);
+	assert(linkedList1.first == linkedList1.last);
+	removeNodeStart(&linkedList1);
+	removeNodeStart(&linkedList1);
+	assert(linkedList1.len == 0);
+	assert(linkedList1.first == NULL);
+	assert(linkedList1.last == NULL);
+	printf("#");
+
 
 	printf("]\n\n");
 	printf("#######################\n");

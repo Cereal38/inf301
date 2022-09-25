@@ -1,4 +1,16 @@
 
+typedef struct Head {
+	int len;
+	struct Node *first;
+	struct Node *last;
+} Head;
+
+typedef struct Node {
+	char data;
+	struct Node *next;
+	struct Node *prev;
+} Node;
+
 char* capitalize(char *string);
 void deleteFirstChar(char* str);
 void concatenateFromRight(char* str1, char* str2);
@@ -19,6 +31,13 @@ char cesarDecodeChar(char c, int shift);
 void cesarDecodeString(char *string, int shift);
 void encrypteMove(char* str);
 void decrypteMove(char* str);
+Head decrypteMoveLinkedList(Head * crypted);
 void encrypteSeq(char* str);
 void decrypteSeq(char* str);
 
+Head initLinkedList(void);
+void addNodeStart(Head * head, char data);
+void addNodeEnd(Head * head, char data);
+void removeNodeStart(Head * head);
+void removeNodeEnd(Head * head);
+void printLinkedList(Head * head);

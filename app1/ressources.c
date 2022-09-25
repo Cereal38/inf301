@@ -337,6 +337,47 @@ void decrypteMove(char* str) {
 }
 
 
+Head decrypteMoveLinkedList(Head * crypted) {
+
+	// On créé les variables
+	char lastChar;
+	char tempChar;
+	int x;
+	int i;
+	Head decrypted;
+	decrypted = initLinkedList();
+
+	// On boucle tant qu'il reste des caractères à décrypter
+	while (crypted->len > 0) {
+
+		// On récupère le dernier caractère de crypted
+		lastChar = crypted->last->data;
+		removeNodeEnd(crypted);
+
+		// On calcul x le modulo 8 du code ascii de lastChar
+		x = lastChar % 8;
+
+		// Si len de decrypted est plus grande que x
+		if (decrypted.len > x) {
+			
+			// On déplace les x derniers char de decrypted au début
+			for (i = 0; i < x; i++) {
+				tempChar = decrypted.last->data;
+				removeNodeEnd(&decrypted);
+				addNodeStart(&decrypted, tempChar);
+			}
+
+		}
+
+		// On insère lastChar au début de decrypted 
+		addNodeStart(&decrypted, lastChar);
+
+	}
+
+	return decrypted;
+}
+
+
 void encrypteSeq(char* str) {
 
 	// On créé les variables
@@ -444,3 +485,102 @@ void decrypteSeq(char* str) {
 
 }
 
+
+Head initLinkedList(void) {
+	Head * head = (Head *) malloc(sizeof(Head));
+	head->len = 0;
+	head->first = NULL;
+	head->last = NULL;
+	return *head;
+}
+
+
+void addNodeStart(Head * head, char data) {
+	Node * new = (Node *) malloc(sizeof(Node));
+	new->data = data;
+	new->next = head->first;
+	new->prev = NULL;
+	if (head->len > 0) { head->first->prev = new; }
+	head->first = new;
+	if (head->len == 0) { head->last = new; }
+	head->len = head->len + 1;
+}
+
+
+void addNodeEnd(Head * head, char data) {
+	Node * new = (Node *) malloc(sizeof(Node));
+	new->data = data;
+	new->next = NULL;
+	new->prev = head->last;
+	if (head->len > 0) { head->last->next = new; }
+	head->last = new;
+	if (head->len == 0) { head->first = new; }
+	head->len = head->len + 1;
+}
+
+
+void removeNodeStart(Head * head) {
+	
+	if (head->len > 2) {
+		head->first = head->first->next;
+		free(head->first->prev);
+		head->first->prev = NULL;
+		head->len = head->len - 1;
+	}
+
+	else if (head->len == 2) {
+		head->last->next = NULL;
+		head->last->prev = NULL;
+		free(head->first);
+		head->first = head->last;
+		head->len = 1;
+	}
+
+	else if (head->len == 1) {
+		free(head->first);
+		head->first = NULL;
+		head->last = NULL;
+		head->len = 0;
+	}
+
+}
+
+
+void removeNodeEnd(Head * head) {
+
+	if (head->len > 2) {
+		head->last = head->last->prev;
+		free(head->last->next);
+		head->last->next = NULL;
+		head->len = head->len - 1;
+	}
+
+
+	else if (head->len == 2) {
+		head->last->next = NULL;
+		head->last->prev = NULL;
+		free(head->last);
+		head->last = head->first;
+		head->len = 1;
+	}
+
+	else if (head->len == 1) {
+		free(head->last);
+		head->first = NULL;
+		head->last = NULL;
+		head->len = 0;
+	}
+
+}
+
+
+void printLinkedList(Head * head) {
+	if (head->len == 0) { printf("List is empty...\n"); return; }
+	Node * current = (Node *) malloc(sizeof(Node));
+	current = head->first;
+	printf("%c", current->data);
+	while (current->next != NULL) {
+		current = current->next;
+		printf("%c", current->data);
+	}
+}

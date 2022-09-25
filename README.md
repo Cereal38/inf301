@@ -19,6 +19,7 @@ Lien vers Appolab : http://im2ag-appolab.u-ga.fr
 	-> (Bonus) Renvoi vers OneMillion
 
  - client-oneMillion
+	-> "Voici les codes d'acces qui declencheront l'attaque au moment voulu : ZXBV-UTMT-ACOX-KKEW-SMLT"
 
  - client-crypteSeq		
 	-> Northwoods (mdp : "hasta la victoria siempre")
