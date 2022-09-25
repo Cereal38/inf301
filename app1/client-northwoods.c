@@ -1,5 +1,6 @@
 #include "client.h"
 #include "ressources.h"
+#include "asserts.h"
 #include <stdio.h>
 #include <ctype.h>
 #include <stdbool.h>
@@ -13,7 +14,7 @@ int main() {
 	char password[MAXMSG];
 
 	// Test de toutes les fonctions
-	testFunctions();
+	testAll();
 
     // Affiche les échanges avec le serveur (false pour désactiver)
     mode_debug(false);

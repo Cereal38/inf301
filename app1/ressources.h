@@ -22,4 +22,3 @@ void decrypteMove(char* str);
 void encrypteSeq(char* str);
 void decrypteSeq(char* str);
 
-void testFunctions();

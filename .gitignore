@@ -5,14 +5,16 @@ app1/client-introduction
 app1/client-introduction.o
 app1/client
 app1/client.o
+app1/ressources
+app1/ressources.o
+app1/asserts
+app1/asserts.o
 app1/client-projetX
 app1/client-projetX.o
 app1/client-tutoriel
 app1/client-tutoriel.o
 app1/client-TUTORIEL
 app1/client-TUTORIEL.o
-app1/ressources
-app1/ressources.o
 app1/client-crypteMove
 app1/client-crypteMove.o
 app1/client-bayOfPigs
@@ -25,3 +27,7 @@ app1/client-lostCause
 app1/client-lostCause.c
 app1/client-planB
 app1/client-planB.o
+app1/client-oneMillion
+app1/client-oneMillion.o
+app1/client-lostCause
+app1/client-lostCause.o
