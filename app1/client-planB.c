@@ -42,13 +42,11 @@ int main() {
 	envoyer_recevoir("start", reponse);
 	printf("%s\n==========================================================\n", reponse);
 
-	// Envoi le mot de passe crypté et affiche la réponse
-	cesarDecodeString(password, 26-shift);
-	printf("Shift : %d / Shift2 : %d / Mot de passe : %s\n", 26-shift, shift*-1, password);
+	// Envoi le mot de passe crypté et affiche la réponse decrypté
+	cesarDecodeString(password, (26-shift)*-1);
 	envoyer_recevoir(password, reponse);
+	cesarDecodeString(reponse, shift);
 	printf("%s\n==========================================================\n", reponse);
-	printf("%c\n==========================================================\n", reponse[68]);
-	printf("%d\n==========================================================\n", reponse[68] - 'h');
 
 
     lire_clavier(message);   // message tapé au clavier

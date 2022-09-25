@@ -25,17 +25,23 @@ int main() {
 
     envoyer_recevoir("login 11800672 \"BRUN-COSME-GAZOT\"", reponse);
 
+	// Lance l'épreuve et affiche les réponses
     envoyer_recevoir("load TUTORIEL", reponse);
+	printf("%s\n==========================================================\n", reponse);
     envoyer_recevoir("depart", reponse);
+	printf("%s\n==========================================================\n", reponse);
     envoyer_recevoir("OK", reponse);
+	printf("%s\n==========================================================\n", reponse);
     envoyer_recevoir("OUI", reponse);
 
 	// Renvoi les 6 prochaines réponses en caplock
 	int i;
 	for (i = 0; i < 6; i++) {
 		envoyer_recevoir(capitalize(reponse), reponse);
-		printf("%s", reponse);
 	}
+
+	// Affiche la réponse finale
+	printf("%s\n==========================================================\n", reponse);
 
 
     lire_clavier(message);   // message tapé au clavier

@@ -12,8 +12,13 @@ Lien vers Appolab : http://im2ag-appolab.u-ga.fr
  - client-projetX       
 	-> (Bonus) Renvoi message de planB
 
+ - client-planB
+	-> Renvoi un code secret ("5402 2586 9910 4327")
+
  - client-crypteMove    
 	-> (Bonus) Renvoi vers OneMillion
+
+ - client-oneMillion
 
  - client-crypteSeq		
 	-> Northwoods (mdp : "hasta la victoria siempre")
