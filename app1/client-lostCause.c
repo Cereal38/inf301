@@ -11,6 +11,8 @@
 int main() {
     char reponse[MAXREP]; // pour stocker la réponse du serveur
     char message[MAXMSG]; // pour stocker le message à envoyer au serveur
+	char key[100];
+	strcpy(key, "Lu>Vdjn!z]#wR?{xZpOu");
 
 	// Test de toutes les fonctions
 	testAll();
@@ -35,6 +37,12 @@ int main() {
 
 	// Démarre le challenge et affiche le message decrypté
 	envoyer_recevoir("start", reponse);
+	decrypteAssoc(reponse);
+	printf("%s\n==========================================================\n", reponse);
+
+	// Envoi la clé du réseau cryptée
+	encrypteAssoc(key);
+	envoyer_recevoir(key, reponse);
 	printf("%s\n==========================================================\n", reponse);
 
 

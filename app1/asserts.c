@@ -237,6 +237,13 @@ printf("#");
 	printf("#");
 
 
+	// decrypteAssoc
+	strcpy(str1, "abcabaa");
+	decrypteAssoc(str1);
+	assert(strcmp(str1, "abcbcca") == 0);
+	printf("#");
+
+
 	// initLinkedList
 	linkedList1 = initLinkedList();
 	assert(linkedList1.len == 0);

@@ -555,6 +555,78 @@ void encrypteAssoc(char* str) {
 }
 
 
+void decrypteAssoc(char* str) {
+
+	// On créé les variables
+	char* dec = (char*) malloc(MAXREP * sizeof(char));
+	clearString(dec, MAXREP);
+	char* seq = (char*) malloc(1000 * sizeof(char));
+	clearString(seq, 1000);
+	char* assoc = (char*) malloc(1000 * sizeof(char));
+	clearString(assoc, 1000);
+	char c;
+	char cDecrypt;
+	char tempAssoc;
+	int indexSuiv = 0;
+	int indexCurrent = 0;
+
+	// On parcours la chaîne et on applique l'algo à chaque caractère
+	int i = 0;
+	while (str[i] != '\0') {
+
+		// On récupère le caractère
+		c = str[i];
+
+		// On regarde si le caractère se trouve dans seq et on procède en conséquent
+		if (isCharInString(seq, c)) {
+
+			// Si le caractère est déjà dans seq, on recupère son index et l'index suivant
+			indexSuiv = indexNextChar(seq, c);
+			indexCurrent = indexPreviousChar(seq, seq[indexSuiv]);
+
+			// On inverse les 2 associations
+			tempAssoc = assoc[indexCurrent];
+			assoc[indexCurrent] = assoc[indexSuiv];
+			assoc[indexSuiv] = tempAssoc;
+
+			// On récupère la valeur associée à c
+			cDecrypt = assoc[indexCurrent];
+
+			// On ajoute le caractère suivant c à la fin de dec
+			appendChar(dec, cDecrypt);
+
+			// On déplace le caractère suivant c et son association à la fin de leur séquence
+			moveCharToEnd(assoc, assoc[indexCurrent]);
+			moveCharToEnd(seq, c);
+
+		} else {
+
+			// Si le caractère n'est pas dans seq, on l'ajoute
+			appendChar(seq, c);
+
+			// On ajoute également son association dans assoc
+			appendChar(assoc, c);
+
+			// On ajoute le caractère à dec
+			appendChar(dec, c);
+
+		}
+
+		i++;
+
+	}
+
+	// On met dec dans le message de base
+	strcpy(str, dec);
+
+	// On libère la mémoire
+	free(dec);
+	free(seq);
+
+}
+
+
+
 Head initLinkedList(void) {
 	Head * head = (Head *) malloc(sizeof(Head));
 	head->len = 0;
