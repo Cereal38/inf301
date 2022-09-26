@@ -33,6 +33,9 @@ int main() {
 	decrypteSeq(reponse);
 	printf("%s\n==========================================================\n", reponse);
 
+	// Démarre le challenge et affiche le message decrypté
+	envoyer_recevoir("start", reponse);
+	printf("%s\n==========================================================\n", reponse);
 
 
     lire_clavier(message);   // message tapé au clavier
