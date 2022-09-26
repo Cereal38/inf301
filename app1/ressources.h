@@ -34,6 +34,8 @@ void decrypteMove(char* str);
 Head decrypteMoveLinkedList(Head * crypted);
 void encrypteSeq(char* str);
 void decrypteSeq(char* str);
+void encrypteAssoc(char* str);
+void decrypteAssoc(char* str);
 
 Head initLinkedList(void);
 void addNodeStart(Head * head, char data);
