@@ -16,8 +16,8 @@ int main() {
 
         modifiez les variables ci-dessous: mettez vos identifiant et mot de passe
      */
-    char *login = "<login>";
-    char *mdp = "<mot de passe>";
+    char *login = "11800672";
+    char *mdp = "BRUN-COSME-GAZOT";
     char *serveur = "im2ag-appolab.u-ga.fr";
     int port = 9999;
     // En cas de problème de connexion, essayer sur le port 443 au lieu de 9999
@@ -31,7 +31,7 @@ int main() {
     char reponse[MAXREP];
     char message[MAXMSG];
 
-    mode_debug(false);
+    mode_debug(true);
 
     puts("Bienvenue dans le client interactif d'AppoLab");
     puts("Connection à AppoLab dans le client interactif d'AppoLab ...");

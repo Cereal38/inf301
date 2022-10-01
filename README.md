@@ -27,3 +27,7 @@ Lien vers Appolab : http://im2ag-appolab.u-ga.fr
  - client-northwoods	
 	-> (Bonus) Renvoi vers LostCause (Demande la clé privée du réseau) : Checker message d'aide
 	-> (Bonus) BraveNewWorld
+	-> Mot de passe du serveur central : "There will be no Nineteen Eighty-Four"
+
+ - client-lostCause
+	-> Clé d'accès au relai réseau : "Lu>Vdjn!z]#wR?{xZpOu"
