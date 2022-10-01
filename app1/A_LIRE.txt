@@ -1,0 +1,16 @@
+
+Bonjour,
+
+Voici le rendu de code de l'APP1 de notre binôme :
+	
+	- BRUN-COSME-GAZOT Guillaume
+	- DIDIER Jules
+
+Le code de chaque épreuve se trouve dans le fichier "client-nomDeLEpreuve.c".
+Les fonctions auxiliaires se trouvent dans le fichier "ressources.c".
+Les tests de chaque fonction se trouvent dans le fichier "asserts.c".
+
+Nous avons travaillé à 2 pour les exercices challenge.
+
+Bonne journée à vous !
+
