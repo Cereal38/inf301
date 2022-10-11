@@ -18,6 +18,9 @@
  */
 
 
+/* main.c est la routine principale à qui l'on passe un fichier de test en argument (eg. ./main tests/simple.test) */
+
+
 #define LINESIZE 256
 #define PROGSIZE 400000096
 #define EXIT_TRICHEURS 2

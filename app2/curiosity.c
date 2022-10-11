@@ -13,6 +13,8 @@
  *
  */
 
+/* Module de gestion du robot. Il faut éviter de modifier le fichier, mais ses fonctions sont utilisables */
+
 struct carte mars;
 
 unsigned int cX=9999,cY=9999; // Position de curiosity (cX,cY)

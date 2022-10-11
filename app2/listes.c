@@ -15,6 +15,8 @@
  *
  */
 
+/* Module de gestion des LC. Il est possible de le modifier pour ajouter des fonctions et des structures de données */
+
 bool silent_mode = false;
 
 

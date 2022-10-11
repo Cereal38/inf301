@@ -16,6 +16,8 @@
  *
  */
 
+/* C'est là que les routines de Curiosity sont interprétés. Ce fichier est modifiable et est le fichier principal de travail */
+
 void stop (void)
 {
     char enter = '\0';
