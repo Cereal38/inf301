@@ -7,6 +7,7 @@
 #endif
 #include "listes.h"
 #include "curiosity.h"
+#include "asserts.h"
 
 
 /*
@@ -15,8 +16,6 @@
  *  Suivi des Modifications :
  *
  */
-
-/* C'est là que les routines de Curiosity sont interprétés. Ce fichier est modifiable et est le fichier principal de travail */
 
 void stop (void)
 {
@@ -29,29 +28,28 @@ void stop (void)
 
 int interprete (sequence_t* seq, bool debug)
 {
-    // Version temporaire a remplacer par une lecture des commandes dans la
-    // liste chainee et leur interpretation.
 
-    char commande;
+	testAll();
+	
+    //debug = true; /* À enlever par la suite et utiliser "-d" sur la ligne de commandes */
+	
+	// Variables
+	cellule_t* cel = nouvelleCellule();
+	cel = seq->tete;
 
-
-
-    debug = true; /* À enlever par la suite et utiliser "-d" sur la ligne de commandes */
-
+	
     printf ("Programme:");
     afficher(seq);
     printf ("\n");
     if (debug) stop();
 
-    // À partir d'ici, beaucoup de choses à modifier dans la suite.
-    printf("\n>>>>>>>>>>> A Faire : interprete.c/interprete() <<<<<<<<<<<<<<<<\n");
-    commande = 'A' ; //à modifier: premiere commande de la sequence
-    int ret;         //utilisée pour les valeurs de retour
+    int ret;
 
-    while ( true ) { //à modifier: condition de boucle
+    while ( cel != NULL ) {
 
-        switch (commande) {
-            /* Ici on avance tout le temps, à compléter pour gérer d'autres commandes */
+		printf ("Commande: %c\n", cel->command);
+
+        switch (cel->command) {
 
             case 'A':
                 ret = avance();
@@ -59,9 +57,20 @@ int interprete (sequence_t* seq, bool debug)
                 if (ret == RATE)     return RATE;     /* tombé dans l'eau ou sur un rocher */
                 break; /* à ne jamais oublier !!! */
 
+			case 'D':
+				droite();
+				break;
+
+			case 'G':
+				gauche();
+				break;
+
             default:
-                eprintf("Caractère inconnu: '%c'\n", commande);
+                eprintf("Caractère inconnu: '%c'\n", cel->command);
         }
+		
+		// Prochaine commande
+		cel = cel->suivant;
 
         /* Affichage pour faciliter le debug */
         afficherCarte();
@@ -69,6 +78,7 @@ int interprete (sequence_t* seq, bool debug)
         afficher(seq);
         printf ("\n");
         if (debug) stop();
+
     }
 
     /* Si on sort de la boucle sans arriver sur la cible,

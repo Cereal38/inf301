@@ -3,6 +3,8 @@ et regroupés par actes.
 De plus, le fichier perfs.zip contient de gros fichiers pour réaliser des 
 tests de performance.
 
+Attention /!\ regardez en premier lieu le fichier LISEZMOI.txt du répertoire supérieur !
+
 Acte I:
 =======
 
@@ -45,25 +47,21 @@ Acte V:
 
 - exec
 - echanges
-
-- boucle
-- boucle-sans-pile
+- clones
 
 - compteur
-- clones
+- boucle
+- boucle-sans-pile
 
 - rotations
 
 - ifignore
-
-
 - boucle-if
 - boucle-clone
-
 - langton
 
 
-Acte Challenge:
+Acte Challenges:
 ===========
 
 - labyrinthe

@@ -26,10 +26,10 @@ mettre ici:
 ****************************************************************
 
 Utilisez (et modifiez) le script "run.py" fourni.
-(Lire le debut de ce fichier pour une explication de comment lancer les 
-tests.)
+(Lire le debut de ce fichier pour une explication de comment lancer les tests.)
 
 
+Pour les tests de performance : lire le fichier LISEZMOI-perfs.txt
 
 
 ****************************************************************
@@ -56,15 +56,6 @@ Test complet
 Test en mode "pas à pas" :
 > ./main -d tests/<nom de test>.test
 
-Test de performance :
-  => mettre tous les affichages dans des blocs conditionnels
-     avec 'if (! silent_mode)'
-  => recompiler avec les options de performance
-     (modifiez les CFLAGS comme indiqué dans le Makefile
-      puis lancez 'make -B')
-
-> ./main -silent tests/perfs/<nom de test de performance>.test
-
 
 Lancer une suite de tests
 -------------------------
@@ -72,8 +63,7 @@ Lancer une suite de tests
 Tests fonctionnels :
 > ./tests/check.py c
 
-Batterie de tests de performance (avec generation de courbes):
-> ./tests/performance/perf.py c
+Tests en vérifiant les erreurs ou fuites mémoire:
+> ./tests/check.py --mem c
 
-
-
+Pour les tests de performance : lire le fichier LISEZMOI-perfs.txt

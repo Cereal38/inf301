@@ -35,3 +35,4 @@ app2/main.o
 app2/curiosity.o
 app2/interprete.o
 app2/listes.o
+app2/asserts.o

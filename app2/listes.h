@@ -30,7 +30,6 @@ extern bool silent_mode;
 
 struct cellule {
     char   command;
-    /* vous pouvez rajouter d'autres champs ici */
     struct cellule *suivant;
 };
 typedef struct cellule cellule_t;
@@ -40,9 +39,15 @@ struct sequence {
 };
 typedef struct sequence sequence_t;
 
+sequence_t* nouvelleSequence(void);
+
 cellule_t* nouvelleCellule (void);
 
 void detruireCellule (cellule_t*);
+
+void ajouterEnTete (sequence_t * liste, char val);
+
+void ajouterEnQueue (sequence_t * liste, char val);
 
 void conversion (char *texte, sequence_t *seq);
 

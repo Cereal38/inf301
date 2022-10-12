@@ -15,11 +15,10 @@ import os
 import subprocess
 import json
 
-import matplotlib as mpl
-mpl.use('Agg')
-import matplotlib.pyplot as plt
+from drawgraph import drawgraph
 
 DEBUG=False
+# DEBUG=True
 
 def debug(*args):
     if (DEBUG):
@@ -46,12 +45,9 @@ En C:
              <mettre ici votre code d'affichage>
          }
 """)
-
-
-
-
     print ("")
     exit (1)
+
 
 c_prog = 'main'
 py_prog = 'main.py'
@@ -93,38 +89,14 @@ perfdir=os.path.dirname(sys.argv[0])
 # genprog = "./" + perfdir + "/gen-test.py"
 genprog = os.path.join(perfdir, "gen-test.py")
 
-os.system("[ -e /tmp/fifo ] && rm /tmp/fifo")
 
 time = subprocess.check_output("which -a time | grep -v shell | tail -n 1", shell=True)
 time = time.decode().rstrip()
 # timecmd = " time -f '\tTemps: %es  Mémoire max: %MKb' "
 timecmd = time + " -f '%e;%M' "
-# timeout = 60
-timeout = 10
+timeout = 60
+# timeout = 10
 timeoutcmd = "timeout " + str(timeout) + "s "
-
-def drawgraph(x, temps, memoire=None, mode=None):
-    plt.clf()
-    fig, ax1 = plt.subplots()
-
-    color = 'tab:red'
-    ax1.set_xlabel('size')
-    ax1.set_ylabel('time (s)', color=color)
-    ax1.plot(x, temps, color=color)
-    ax1.plot(x, temps, 'b+') # also plot the dots as crosshairs
-    ax1.tick_params(axis='y', labelcolor=color)
-
-    if memoire is not None:
-        ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
-
-        color = 'tab:green'
-        ax2.set_ylabel('memoire (GB)', color=color)  # we already handled the x-label with ax1
-        ax2.plot(x, memoire, color=color)
-        ax2.plot(x, memoire, 'b+') # also plot the dots as crosshairs
-        ax2.tick_params(axis='y', labelcolor=color)
-
-    fig.tight_layout()
-    plt.savefig(mode + ".png")
 
 def run_test(mode, message):
     msg =  "Running tests mode " + mode + " " + message
@@ -137,23 +109,28 @@ def run_test(mode, message):
     size = 1000
     size_max = 10000000
 
+    tmppipe=os.popen("mktemp --tmpdir -u $USER.XXXXXXXXX.fifo").read().strip()
+    debug("Pipe is", tmppipe)
+    os.system("mkfifo -m 600 " + tmppipe)
+
     ret = None
     while ret == None and size < size_max:
         print ("Size ", "{:10}".format(size))
 
+
         if gen :
             f = "> perfs/test" + mode + str(size) + ".test"
         else:
-            f = " > /tmp/fifo &"
+            f = " > " + tmppipe + " &"
 
-        os.system("mkfifo /tmp/fifo")
+        # os.system("mkfifo /tmp/fifo")
         generation = "python3 " + genprog + " -s " + str(size) + " -m " + mode + f
         result = os.system(generation)
         debug("Executed: " + generation + " with result " + str(result))
 
         if not gen:
 
-            command = timecmd + timeoutcmd + './' + prog + options + " /tmp/fifo >/dev/null"
+            command = timecmd + timeoutcmd + './' + prog + options + " " + tmppipe + " >/dev/null"
 
             try:
                 debug("Executing: ", command)
@@ -179,7 +156,8 @@ def run_test(mode, message):
                     ret = "Timeout after "+ str(timeout) +"seconds"
 
         size*=2
-        os.remove("/tmp/fifo")
+
+    os.remove(tmppipe)
 
     if ret != None:
         print ("Problem with last size:", ret)
