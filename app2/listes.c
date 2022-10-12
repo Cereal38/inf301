@@ -18,6 +18,7 @@
 bool silent_mode = false;
 
 
+// --- Start sequences --- //
 sequence_t* nouvelleSequence(void)
 {
 	sequence_t* seq = (sequence_t*) malloc(sizeof(sequence_t));
@@ -89,5 +90,73 @@ void afficher (sequence_t* seq)
 		printf ("%c", cel->command);
 		cel = cel->suivant;
 	}
+	printf ("\n");
+}
+// --- End sequences --- //
+
+
+// --- Start piles --- //
+pile_t* nouvellePile(void)
+{
+	pile_t* pile = (pile_t*) malloc(sizeof(pile_t));
+	pile->tete = NULL;
+	return pile;
 }
 
+void empiler (pile_t * pile, int val)
+{
+	element_t * new = (element_t*) malloc (sizeof (element_t));
+	new->val = val;
+	new->suivant = pile->tete;
+	pile->tete = new;
+}
+
+int depiler (pile_t * pile)
+{
+	int val;
+	element_t * element = (element_t*) malloc (sizeof (element_t));
+	element = pile->tete;
+	val = element->val;
+	pile->tete = element->suivant;
+	free (element);
+	return val;
+}
+
+void additionner (pile_t * pile)
+{
+	char val1 = depiler (pile);
+	char val2 = depiler (pile);
+	empiler (pile, val1 + val2);
+}
+
+void soustraire (pile_t * pile)
+{
+	char val1 = depiler (pile);
+	char val2 = depiler (pile);
+	empiler (pile, val1 - val2);
+}
+
+void multiplier (pile_t * pile)
+{
+	char val1 = depiler (pile);
+	char val2 = depiler (pile);
+	empiler (pile, val1 * val2);
+}
+
+void afficherPile (pile_t * pile)
+{
+	element_t * element = (element_t*) malloc (sizeof (element_t));
+	element = pile->tete;
+	while (element != NULL)
+	{
+		printf ("%d ", element->val);
+		element = element->suivant;
+	}
+	printf ("\n");
+}
+
+int convertCharToInt (char c)
+{
+	return c - '0';
+}
+// --- End piles --- //

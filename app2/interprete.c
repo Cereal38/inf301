@@ -36,6 +36,7 @@ int interprete (sequence_t* seq, bool debug)
 	// Variables
 	cellule_t* cel = nouvelleCellule();
 	cel = seq->tete;
+	pile_t * pile = nouvellePile();
 
 	
     printf ("Programme:");
@@ -64,6 +65,31 @@ int interprete (sequence_t* seq, bool debug)
 			case 'G':
 				gauche();
 				break;
+
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				empiler(pile, convertCharToInt(cel->command));
+				break;
+
+			case '+':
+				additionner(pile);
+				break;
+
+			case '-':
+				soustraire(pile);
+				break;
+
+			case '*':
+				multiplier(pile);
+				break;
+
 
             default:
                 eprintf("Caractère inconnu: '%c'\n", cel->command);
