@@ -66,6 +66,7 @@ int interprete (sequence_t* seq, bool debug)
 				gauche();
 				break;
 
+			case '0':
 			case '1':
 			case '2':
 			case '3':
@@ -90,10 +91,22 @@ int interprete (sequence_t* seq, bool debug)
 				multiplier(pile);
 				break;
 
+			case 'P':
+				pose(depiler(pile));
+				break;
+
+			case 'M':
+				empiler(pile, mesure(depiler(pile)));
+				break;
+
 
             default:
                 eprintf("Caractère inconnu: '%c'\n", cel->command);
         }
+
+		// Affichage pile
+		printf("Pile: ");
+		afficherPile(pile);
 		
 		// Prochaine commande
 		cel = cel->suivant;
