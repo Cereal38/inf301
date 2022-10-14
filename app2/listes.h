@@ -57,22 +57,32 @@ void afficher (sequence_t* seq);
 
 
 // --- Start piles --- //
+typedef enum typeElement {INT, CHAR, BLOC} typeElement; // Type de l'élément de la pile
+														
+typedef union {
+	int i;
+	char c;
+	sequence_t *s;
+} valeurPile; // Valeur de l'élément de la pile
+			  
 struct element {
-	int val;
 	struct element *suivant;
+	typeElement type;
+	valeurPile valeur;
 };
-typedef struct element element_t;
+typedef struct element element_t; // Element de la pile
+
 
 struct pile {
 	element_t *tete;
 };
-typedef struct pile pile_t;
+typedef struct pile pile_t; // Pile
 
 pile_t* nouvellePile(void);
 
-void empiler (pile_t * pile, int val);
+void empiler (pile_t * pile, valeurPile valeur, typeElement type);
 
-int depiler (pile_t * pile);
+element_t* depiler (pile_t * pile);
 
 void additionner (pile_t * pile);
 
@@ -87,3 +97,4 @@ int convertCharToInt (char c);
 
 
 #endif
+

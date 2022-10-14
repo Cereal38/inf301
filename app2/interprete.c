@@ -76,7 +76,7 @@ int interprete (sequence_t* seq, bool debug)
 			case '7':
 			case '8':
 			case '9':
-				empiler(pile, convertCharToInt(cel->command));
+				empiler(pile, (valeurPile) convertCharToInt(cel->command), INT);
 				break;
 
 			case '+':
@@ -92,11 +92,11 @@ int interprete (sequence_t* seq, bool debug)
 				break;
 
 			case 'P':
-				pose(depiler(pile));
+				pose(depiler(pile)->valeur.i);
 				break;
 
 			case 'M':
-				empiler(pile, mesure(depiler(pile)));
+				empiler(pile, (valeurPile) mesure(depiler(pile)->valeur.i), INT);
 				break;
 
 

@@ -103,54 +103,77 @@ pile_t* nouvellePile(void)
 	return pile;
 }
 
-void empiler (pile_t * pile, int val)
+void empiler (pile_t * pile, valeurPile val, typeElement type)
 {
 	element_t * new = (element_t*) malloc (sizeof (element_t));
-	new->val = val;
+	new->valeur = val;
+	new->type = type;
 	new->suivant = pile->tete;
 	pile->tete = new;
 }
 
-int depiler (pile_t * pile)
+element_t* depiler (pile_t * pile)
 {
-	int val;
-	element_t * element = (element_t*) malloc (sizeof (element_t));
-	element = pile->tete;
-	val = element->val;
-	pile->tete = element->suivant;
-	free (element);
-	return val;
+	element_t * cel = (element_t*) malloc (sizeof (element_t));
+	cel = pile->tete;
+	pile->tete = cel->suivant;
+	return cel;
 }
 
 void additionner (pile_t * pile)
 {
-	char val1 = depiler (pile);
-	char val2 = depiler (pile);
-	empiler (pile, val1 + val2);
+	element_t * cel1 = (element_t*) malloc (sizeof (element_t));
+	element_t * cel2 = (element_t*) malloc (sizeof (element_t));
+	cel1 = depiler (pile);
+	cel2 = depiler (pile);
+	empiler(pile, (valeurPile) (cel1->valeur.i + cel2->valeur.i), INT);
+
 }
 
 void soustraire (pile_t * pile)
 {
-	char val1 = depiler (pile);
-	char val2 = depiler (pile);
-	empiler (pile, val1 - val2);
+	element_t * cel1 = (element_t*) malloc (sizeof (element_t));
+	element_t * cel2 = (element_t*) malloc (sizeof (element_t));
+	cel1 = depiler (pile);
+	cel2 = depiler (pile);
+	empiler(pile, (valeurPile) (cel1->valeur.i - cel2->valeur.i), INT);
 }
 
 void multiplier (pile_t * pile)
 {
-	char val1 = depiler (pile);
-	char val2 = depiler (pile);
-	empiler (pile, val1 * val2);
+	element_t * cel1 = (element_t*) malloc (sizeof (element_t));
+	element_t * cel2 = (element_t*) malloc (sizeof (element_t));
+	cel1 = depiler (pile);
+	cel2 = depiler (pile);
+	empiler(pile, (valeurPile) (cel1->valeur.i * cel2->valeur.i), INT);
 }
 
 void afficherPile (pile_t * pile)
 {
-	element_t * element = (element_t*) malloc (sizeof (element_t));
-	element = pile->tete;
-	while (element != NULL)
+	element_t * cel = (element_t*) malloc (sizeof (element_t));
+	cel = pile->tete;
+	while (cel != NULL)
 	{
-		printf ("%d ", element->val);
-		element = element->suivant;
+
+		// L'affichage diffère en fonction du type de la variable
+		switch (cel->type)
+		{
+			case INT:
+				printf ("%d ", cel->valeur.i);
+				break;
+			case CHAR:
+				printf ("%c ", cel->valeur.c);
+				break;
+			case BLOC :
+				printf("{");
+				afficher(cel->valeur.s);
+				printf("} ");
+				break;
+			default:
+				break;
+		}
+
+		cel = cel->suivant;
 	}
 	printf ("\n");
 }

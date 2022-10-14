@@ -46,56 +46,72 @@ int testConversion(void) {
 
 
 int testEmpiler(void) {
-	pile_t* pile = nouvellePile();
-	empiler(pile, 1);
-	assert(pile->tete->val == 1);
-	assert(pile->tete->suivant == NULL);
-	empiler(pile, 2);
-	assert(pile->tete->val == 2);
-	assert(pile->tete->suivant->val == 1);
-	assert(pile->tete->suivant->suivant == NULL);
+
+	sequence_t * seq = nouvelleSequence();
+	ajouterEnTete(seq, 'A');
+	ajouterEnTete(seq, 'B');
+
+	pile_t * pile = nouvellePile();
+	empiler(pile, (valeurPile) 1, INT);
+	empiler(pile, (valeurPile) 'a', CHAR);
+	empiler(pile, (valeurPile) seq, BLOC);
+
+	assert(pile->tete->valeur.s == seq);
+	assert(pile->tete->valeur.s->tete->command == 'B');
+	assert(pile->tete->valeur.s->tete->suivant->command == 'A');
+	assert(pile->tete->suivant->valeur.c == 'a');
+	assert(pile->tete->suivant->suivant->valeur.i == 1);
 	return 0;
 }
 
 
 int testDepiler(void) {
-	pile_t* pile = nouvellePile();
-	empiler(pile, 1);
-	empiler(pile, 2);
-	assert(depiler(pile) == 2);
-	assert(depiler(pile) == 1);
+	pile_t * pile = nouvellePile();
+	empiler(pile, (valeurPile) 1, INT);
+	empiler(pile, (valeurPile) 'a', CHAR);
+	empiler(pile, (valeurPile) 2, INT);
+
+	assert(depiler(pile)->valeur.i == 2);
+	assert(depiler(pile)->valeur.c == 'a');
+	assert(depiler(pile)->type == INT);
 	return 0;
 }
 
 
+
 void testAdditionner(void) {
-	pile_t* pile = nouvellePile();
-	empiler(pile, 1);
-	empiler(pile, 2);
-	empiler(pile, 2);
+	pile_t * pile = nouvellePile();
+	empiler(pile, (valeurPile) 1, INT);
+	empiler(pile, (valeurPile) 2, INT);
+	empiler(pile, (valeurPile) 3, INT);
 	additionner(pile);
-	assert(depiler(pile) == 4);
-	assert(depiler(pile) == 1);
+	assert(pile->tete->valeur.i == 5);
+	assert(pile->tete->suivant->valeur.i == 1);
+	assert(pile->tete->suivant->suivant == NULL);
 }
 
 
 void testSoustraire(void) {
-	pile_t* pile = nouvellePile();
-	empiler(pile, 1);
-	empiler(pile, 2);
-	empiler(pile, 3);
+	pile_t * pile = nouvellePile();
+	empiler(pile, (valeurPile) 1, INT);
+	empiler(pile, (valeurPile) 2, INT);
+	empiler(pile, (valeurPile) 3, INT);
 	soustraire(pile);
-	assert(depiler(pile) == 1);
-	assert(depiler(pile) == 1);
+	assert(pile->tete->valeur.i == 1);
+	assert(pile->tete->suivant->valeur.i == 1);
+	assert(pile->tete->suivant->suivant == NULL);
 }
 
 
 void testMultiplier(void) {
-	pile_t* pile = nouvellePile();
-	empiler(pile, 2);
-	empiler(pile, 3);
+	pile_t * pile = nouvellePile();
+	empiler(pile, (valeurPile) 1, INT);
+	empiler(pile, (valeurPile) 2, INT);
+	empiler(pile, (valeurPile) 3, INT);
 	multiplier(pile);
-	assert(depiler(pile) == 6);
+	assert(pile->tete->valeur.i == 6);
+	assert(pile->tete->suivant->valeur.i == 1);
+	assert(pile->tete->suivant->suivant == NULL);
 }
 
 
