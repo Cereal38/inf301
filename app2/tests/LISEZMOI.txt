@@ -8,7 +8,7 @@ Attention /!\ regardez en premier lieu le fichier LISEZMOI.txt du répertoire su
 Acte I:
 =======
 
-- simple
+✓ simple
 
 
 Acte II:
@@ -17,25 +17,25 @@ Acte II:
 /!\ Attention, ce test ne vérifie pas que les calculs sont corrects:
 à vous de vérifier votre pile manuellement
 
-- calculs
+✓ calculs
 
 
 
 Acte III:
 =========
 
-- mesures
-- marques
-- marques-et-mesures
-- copie
+✓ mesures
+✓ marques
+✓ marques-et-mesures
+✓ copie
 
 
 Acte IV:
 ========
 
-- if
+✓ if
 - if-non-depile
-- empile
+✓ empile
 - imbrique
 
 Challenge (non nécessaire pour valider l'acte IV):

@@ -37,14 +37,17 @@ int interprete (sequence_t* seq, bool debug)
 	cellule_t* cel = nouvelleCellule();
 	cel = seq->tete;
 	pile_t * pile = nouvellePile();
-
+    int ret;
+	sequence_t * bloc;
+	int ternaire;
+	sequence_t * seqVrai;
+	sequence_t * seqFaux;
 	
+
     printf ("Programme:");
     afficher(seq);
     printf ("\n");
     if (debug) stop();
-
-    int ret;
 
     while ( cel != NULL ) {
 
@@ -98,7 +101,38 @@ int interprete (sequence_t* seq, bool debug)
 			case 'M':
 				empiler(pile, (valeurPile) mesure(depiler(pile)->valeur.i), INT);
 				break;
+			
+			case '{':
 
+				// Créé la nouvelle séquence qui va être empilée
+				bloc = nouvelleSequence();
+
+				// N'ajoute pas l'acolade à la séquence
+				cel = cel->suivant;
+
+				// Ajoute les commandes de la séquence au bloc
+				while (cel->command != '}') {
+					ajouterEnQueue(bloc, cel->command);
+					cel = cel->suivant;
+				}
+
+				// Ajoute le bloc à la pile
+				empiler(pile, (valeurPile) bloc, BLOC);
+
+				break;
+
+			case '?':
+
+				// Récupère les 2 séquences et le ternaire
+				seqVrai = (sequence_t *) depiler(pile)->valeur.s;
+				seqFaux = (sequence_t *) depiler(pile)->valeur.s;
+				ternaire = depiler(pile)->valeur.i;
+
+				// Exécute la bonne séquence
+				if (ternaire == 0) { interprete(seqVrai, debug); }
+				else { interprete(seqFaux, debug); }
+
+				break;
 
             default:
                 eprintf("Caractère inconnu: '%c'\n", cel->command);

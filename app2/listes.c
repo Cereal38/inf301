@@ -90,7 +90,6 @@ void afficher (sequence_t* seq)
 		printf ("%c", cel->command);
 		cel = cel->suivant;
 	}
-	printf ("\n");
 }
 // --- End sequences --- //
 
@@ -167,7 +166,7 @@ void afficherPile (pile_t * pile)
 			case BLOC :
 				printf("{");
 				afficher(cel->valeur.s);
-				printf("} ");
+				printf("}");
 				break;
 			default:
 				break;
