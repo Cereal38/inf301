@@ -30,9 +30,28 @@ int interprete (sequence_t* seq, bool debug)
 {
 
 	testAll();
+
+	int ret;
+
+	interpreteSequence(seq, &ret);
+
+	if (ret == VICTOIRE) {
+		printf("################\n");
+		printf("### VICTOIRE ###\n");
+		printf("################\n");
+		return ret;
+	}
+
+	if (ret == RATE) {
+		printf("############\n");
+		printf("### RATE ###\n");
+		printf("############\n");
+		return ret;
+	}
 	
     //debug = true; /* À enlever par la suite et utiliser "-d" sur la ligne de commandes */
 	
+	/*
 	// Variables
 	cellule_t* cel = nouvelleCellule();
 	cel = seq->tete;
@@ -57,9 +76,9 @@ int interprete (sequence_t* seq, bool debug)
 
             case 'A':
                 ret = avance();
-                if (ret == VICTOIRE) return VICTOIRE; /* on a atteint la cible */
-                if (ret == RATE)     return RATE;     /* tombé dans l'eau ou sur un rocher */
-                break; /* à ne jamais oublier !!! */
+                if (ret == VICTOIRE) return VICTOIRE;
+                if (ret == RATE)     return RATE;
+                break;
 
 			case 'D':
 				droite();
@@ -145,7 +164,7 @@ int interprete (sequence_t* seq, bool debug)
 		// Prochaine commande
 		cel = cel->suivant;
 
-        /* Affichage pour faciliter le debug */
+        // Affichage pour faciliter le debug
         afficherCarte();
         printf ("Programme:");
         afficher(seq);
@@ -153,9 +172,13 @@ int interprete (sequence_t* seq, bool debug)
         if (debug) stop();
 
     }
+	*/
 
     /* Si on sort de la boucle sans arriver sur la cible,
      * c'est raté :-( */
 
+	printf("############\n");
+	printf("### RATE ###\n");
+	printf("############\n");
     return CIBLERATEE;
 }

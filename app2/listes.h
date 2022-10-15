@@ -96,5 +96,10 @@ int convertCharToInt (char c);
 // --- End piles --- //
 
 
+// --- Start others --- //
+void interpreteSequence(sequence_t * seq, int * ret);
+// --- End others --- //
+
+
 #endif
 

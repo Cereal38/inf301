@@ -34,7 +34,7 @@ Acte IV:
 ========
 
 ✓ if
-- if-non-depile
+✓ if-non-depile
 ✓ empile
 - imbrique
 
