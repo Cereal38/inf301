@@ -35,19 +35,7 @@ int interprete (sequence_t* seq, bool debug)
 
 	interpreteSequence(seq, &ret);
 
-	if (ret == VICTOIRE) {
-		printf("################\n");
-		printf("### VICTOIRE ###\n");
-		printf("################\n");
-		return ret;
-	}
-
-	if (ret == RATE) {
-		printf("############\n");
-		printf("### RATE ###\n");
-		printf("############\n");
-		return ret;
-	}
+	if (ret == VICTOIRE || ret == RATE) { return ret; }
 	
     //debug = true; /* À enlever par la suite et utiliser "-d" sur la ligne de commandes */
 	
@@ -177,8 +165,5 @@ int interprete (sequence_t* seq, bool debug)
     /* Si on sort de la boucle sans arriver sur la cible,
      * c'est raté :-( */
 
-	printf("############\n");
-	printf("### RATE ###\n");
-	printf("############\n");
     return CIBLERATEE;
 }

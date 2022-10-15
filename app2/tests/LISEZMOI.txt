@@ -1,3 +1,4 @@
+
 Voici dans ce fichier la liste des tests à effectuer par ordre de difficulté 
 et regroupés par actes.
 De plus, le fichier perfs.zip contient de gros fichiers pour réaliser des 
@@ -36,7 +37,7 @@ Acte IV:
 ✓ if
 ✓ if-non-depile
 ✓ empile
-- imbrique
+✓ imbrique
 
 Challenge (non nécessaire pour valider l'acte IV):
 - mysterieuZe

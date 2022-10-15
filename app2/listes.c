@@ -8,7 +8,6 @@
 #include "listes.h"
 #include "curiosity.h"
 
-
 /*
  *  Auteur(s) :
  *  Date :
@@ -150,6 +149,13 @@ void multiplier (pile_t * pile)
 
 void afficherPile (pile_t * pile)
 {
+
+	// Cas où la pile est vide
+	if (pile->tete == NULL) {
+		printf ("Nil\n");
+		return;
+	}
+
 	element_t * cel = (element_t*) malloc (sizeof (element_t));
 	cel = pile->tete;
 	while (cel != NULL)
@@ -196,10 +202,21 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 	int ternaire;
 	sequence_t * seqVrai;
 	sequence_t * seqFaux;
+	int compteAccolades;
+
+	// Affiche la séquence
+	printf ("Programme:");
+	afficher(seq);
+	printf ("\n");
 
 	while ( cel != NULL ) {
 
-		printf ("Commande: %c\n", cel->command);
+		// Affichage (Sauf si le caractère est un espace ou LF)
+		if (cel->command != ' ' && cel->command != '\n') {
+			printf("Pile: ");
+			afficherPile(pile);
+			printf ("Commande: %c\n", cel->command); 
+		}
 
         switch (cel->command) {
 
@@ -250,6 +267,8 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 			
 			case '{':
 
+				compteAccolades = 0;
+
 				// Créé la nouvelle séquence qui va être empilée
 				bloc = nouvelleSequence();
 
@@ -257,7 +276,12 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 				cel = cel->suivant;
 
 				// Ajoute les commandes de la séquence au bloc
-				while (cel->command != '}') {
+				while (cel->command != '}' || compteAccolades != 0) {
+					
+					// Si on rencontre une accolade, on incrémente / décremente le compteur
+					if (cel->command == '{') { compteAccolades++; }
+					if (cel->command == '}') { compteAccolades--; }
+
 					ajouterEnQueue(bloc, cel->command);
 					cel = cel->suivant;
 				}
@@ -280,21 +304,19 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 
 				break;
 
+			case ' ':
+			case '\n':
+				break;
+
             default:
-                eprintf("Caractère inconnu: '%c'\n", cel->command);
+                eprintf("Caractère inconnu: '%d'\n", cel->command);
         }
 
-		// Affichage pile
-		printf("Pile: ");
-		afficherPile(pile);
-		
 		// Prochaine commande
 		cel = cel->suivant;
 
         /* Affichage pour faciliter le debug */
-        afficherCarte();
-        printf ("Programme:");
-        afficher(seq);
+        //afficherCarte();
         printf ("\n");
 
     }
