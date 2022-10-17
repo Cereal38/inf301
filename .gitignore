@@ -36,3 +36,4 @@ app2/curiosity.o
 app2/interprete.o
 app2/listes.o
 app2/asserts.o
+app2/tests/perfs
