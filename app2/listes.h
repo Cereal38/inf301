@@ -26,8 +26,6 @@
 extern bool silent_mode;
 
 
-
-
 // --- Start sequences --- //
 struct cellule {
     char   command;
@@ -93,6 +91,8 @@ void multiplier (pile_t * pile);
 void afficherPile (pile_t * pile);
 
 void inverseDeuxPremiers (pile_t * pile);
+
+void clonerPremier (pile_t * pile);
 
 int convertCharToInt (char c);
 // --- End piles --- //

@@ -195,6 +195,36 @@ void inverseDeuxPremiers (pile_t * pile) {
 }
 
 
+void clonerPremier (pile_t * pile) {
+
+	// Cas de la pile vide
+	if (pile->tete == NULL) { return; }
+
+	cellule_t * cel;
+	sequence_t * seqClone;
+
+	switch (pile->tete->type) {
+		case INT:
+			empiler(pile, pile->tete->valeur, INT);
+			break;
+		case CHAR:
+			empiler(pile, (valeurPile) pile->tete->valeur.c, CHAR);
+			break;
+		case BLOC:
+			cel = (cellule_t*) malloc (sizeof (cellule_t));
+			cel = pile->tete->valeur.s->tete;
+			seqClone = nouvelleSequence();
+			while (cel != NULL) {
+				ajouterEnQueue(seqClone, cel->command);
+				cel = cel->suivant;
+			}
+			empiler(pile, (valeurPile) seqClone, BLOC);
+			break;
+	}
+
+}
+
+
 int convertCharToInt (char c)
 {
 	return c - '0';
@@ -292,9 +322,15 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 				break;
 
 			case '!':
+				// Cas de la pile vide
+				if (pile->tete == NULL) { break; }
+
+				// Transforme le premier élément en sequence pour
+				// l'exécuter avec interpreteSequence()
 				seqTemp = nouvelleSequence();
 				elemTemp = (element_t*) malloc (sizeof (element_t));
 				elemTemp = depiler(pile);
+
 				switch (elemTemp->type) {
 					case CHAR:
 						ajouterEnTete(seqTemp, (char) elemTemp->valeur.c);
@@ -306,9 +342,14 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 						printf("Erreur : Impossible d'exécuter un entier\n");
 						break;
 				}
+
 				interpreteSequence(seqTemp, ret);
 				free(seqTemp);
 				free(elemTemp);
+				break;
+
+			case 'C':
+				clonerPremier(pile);
 				break;
 			
 			case '{':
