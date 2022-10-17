@@ -18,3 +18,5 @@ void testSoustraire(void);
 void testMultiplier(void);
 
 void testConvertCharToInt(void);
+
+void testInverseDeuxPremiers(void);

@@ -129,6 +129,19 @@ void testConvertCharToInt(void) {
 }
 
 
+void testInverseDeuxPremiers(void) {
+	pile_t * pile = nouvellePile();
+	empiler(pile, (valeurPile) 1, INT);
+	empiler(pile, (valeurPile) 2, INT);
+	empiler(pile, (valeurPile) 3, INT);
+	inverseDeuxPremiers(pile);
+	assert(pile->tete->valeur.i == 2);
+	assert(pile->tete->suivant->valeur.i == 3);
+	assert(pile->tete->suivant->suivant->valeur.i == 1);
+	assert(pile->tete->suivant->suivant->suivant == NULL);
+}
+
+
 int testAll(void) {
 	testAjouterEnTete();
 	testAjouterEnQueue();
@@ -139,5 +152,6 @@ int testAll(void) {
 	testSoustraire();
 	testMultiplier();
 	testConvertCharToInt();
+	testInverseDeuxPremiers();
 	return 0;
 }

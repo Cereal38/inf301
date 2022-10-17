@@ -184,6 +184,17 @@ void afficherPile (pile_t * pile)
 	printf ("\n");
 }
 
+
+void inverseDeuxPremiers (pile_t * pile) {
+	element_t * cel1 = (element_t*) malloc (sizeof (element_t));
+	element_t * cel2 = (element_t*) malloc (sizeof (element_t));
+	cel1 = depiler (pile);
+	cel2 = depiler (pile);
+	empiler(pile, cel1->valeur, cel1->type);
+	empiler(pile, cel2->valeur, cel2->type);
+}
+
+
 int convertCharToInt (char c)
 {
 	return c - '0';
@@ -203,6 +214,9 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 	sequence_t * seqVrai;
 	sequence_t * seqFaux;
 	int compteAccolades;
+	sequence_t * seqTemp;
+	element_t * elemTemp;
+	int bCount;
 
 	// Affiche la séquence
 	printf ("Programme:");
@@ -263,6 +277,38 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 
 			case 'M':
 				empiler(pile, (valeurPile) mesure(depiler(pile)->valeur.i), INT);
+				break;
+
+			case 'X':
+				inverseDeuxPremiers(pile);
+				break;
+
+			case 'B':
+				bCount = depiler(pile)->valeur.i;
+				while (bCount > 0) {
+					interpreteSequence(pile->tete->valeur.s, ret);
+					bCount--;
+				}
+				break;
+
+			case '!':
+				seqTemp = nouvelleSequence();
+				elemTemp = (element_t*) malloc (sizeof (element_t));
+				elemTemp = depiler(pile);
+				switch (elemTemp->type) {
+					case CHAR:
+						ajouterEnTete(seqTemp, (char) elemTemp->valeur.c);
+						break;
+					case BLOC:
+						seqTemp = elemTemp->valeur.s;
+						break;
+					case INT:
+						printf("Erreur : Impossible d'exécuter un entier\n");
+						break;
+				}
+				interpreteSequence(seqTemp, ret);
+				free(seqTemp);
+				free(elemTemp);
 				break;
 			
 			case '{':
