@@ -99,7 +99,7 @@ int convertCharToInt (char c);
 
 
 // --- Start others --- //
-void interpreteSequence(sequence_t * seq, int * ret);
+void interpreteSequence(sequence_t * seq, int * ret, pile_t * pile);
 // --- End others --- //
 
 

@@ -233,12 +233,11 @@ int convertCharToInt (char c)
 
 
 // --- Start others --- //
-void interpreteSequence(sequence_t * seq, int * ret) {
+void interpreteSequence(sequence_t * seq, int * ret, pile_t * pile) {
 
 	// Variables
 	cellule_t* cel = nouvelleCellule();
 	cel = seq->tete;
-	pile_t * pile = nouvellePile();
 	sequence_t * bloc;
 	int ternaire;
 	sequence_t * seqVrai;
@@ -253,7 +252,7 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 	afficher(seq);
 	printf ("\n");
 
-	while ( cel != NULL ) {
+	while ( cel != NULL && *ret != VICTOIRE  ) {
 
 		// Affichage (Sauf si le caractère est un espace ou LF)
 		if (cel->command != ' ' && cel->command != '\n') {
@@ -316,7 +315,7 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 			case 'B':
 				bCount = depiler(pile)->valeur.i;
 				while (bCount > 0) {
-					interpreteSequence(pile->tete->valeur.s, ret);
+					interpreteSequence(pile->tete->valeur.s, ret, pile);
 					bCount--;
 				}
 				break;
@@ -343,7 +342,7 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 						break;
 				}
 
-				interpreteSequence(seqTemp, ret);
+				interpreteSequence(seqTemp, ret, pile);
 				free(seqTemp);
 				free(elemTemp);
 				break;
@@ -386,8 +385,8 @@ void interpreteSequence(sequence_t * seq, int * ret) {
 				ternaire = depiler(pile)->valeur.i;
 
 				// Exécute la bonne séquence
-				if (ternaire == 0) { interpreteSequence(seqVrai, &(*ret)); }
-				else { interpreteSequence(seqFaux, &(*ret)); }
+				if (ternaire == 0) { interpreteSequence(seqVrai, &(*ret), pile); }
+				else { interpreteSequence(seqFaux, &(*ret), pile); }
 
 				break;
 
