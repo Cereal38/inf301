@@ -94,6 +94,8 @@ void inverseDeuxPremiers (pile_t * pile);
 
 void clonerPremier (pile_t * pile);
 
+void decaleGauche (pile_t * pile, int n);
+
 int convertCharToInt (char c);
 // --- End piles --- //
 

@@ -225,6 +225,35 @@ void clonerPremier (pile_t * pile) {
 }
 
 
+void decaleGauche (pile_t * pile, int n) {
+
+	// Variable
+	int i;
+	element_t * mem;
+	element_t * parcours;
+
+	// Cas où n vaut 0 ou 1
+	if (n == 0 || n == 1) { return; }
+
+	// Cas où n vaut 2
+	if (n == 2) {
+		inverseDeuxPremiers(pile);
+		return;
+	}
+
+	// On parcours la pile pour récupérer le n-ième élément
+	parcours = pile->tete;
+	for (i = 0; i < n-2; i++) {
+		parcours = parcours->suivant;
+	}
+	mem = parcours->suivant;
+	parcours->suivant = mem->suivant;
+	mem->suivant = pile->tete;
+	pile->tete = mem;
+	
+}
+
+
 int convertCharToInt (char c)
 {
 	return c - '0';
@@ -235,17 +264,29 @@ int convertCharToInt (char c)
 // --- Start others --- //
 void interpreteSequence(sequence_t * seq, int * ret, pile_t * pile) {
 
-	// Variables
+	// --- Start variables --- //
+	
+	// Générales
+	int i;
+
 	cellule_t* cel = nouvelleCellule();
 	cel = seq->tete;
 	sequence_t * bloc;
-	int ternaire;
-	sequence_t * seqVrai;
-	sequence_t * seqFaux;
 	int compteAccolades;
 	sequence_t * seqTemp;
 	element_t * elemTemp;
 	int bCount;
+
+	// Case ?
+	int ternaire;
+	sequence_t * seqVrai;
+	sequence_t * seqFaux;
+
+	// Case R
+	int nR;
+	int xR;
+
+	// --- End variables --- //
 
 	// Affiche la séquence
 	printf ("Programme:");
@@ -349,6 +390,14 @@ void interpreteSequence(sequence_t * seq, int * ret, pile_t * pile) {
 
 			case 'C':
 				clonerPremier(pile);
+				break;
+
+			case 'R' :
+				xR = depiler(pile)->valeur.i;
+				nR = depiler(pile)->valeur.i;
+				for (i = 0; i < xR; i++) {
+					decaleGauche(pile, nR);
+				}
 				break;
 			
 			case '{':
