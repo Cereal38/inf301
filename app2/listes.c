@@ -399,6 +399,10 @@ void interpreteSequence(sequence_t * seq, int * ret, pile_t * pile) {
 					decaleGauche(pile, nR);
 				}
 				break;
+
+			case 'I' :
+				depiler(pile);
+				break;
 			
 			case '{':
 
