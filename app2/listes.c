@@ -454,10 +454,6 @@ void interpreteSequence(sequence_t * seq, int * ret, pile_t * pile) {
 		// Prochaine commande
 		cel = cel->suivant;
 
-        /* Affichage pour faciliter le debug */
-        //afficherCarte();
-        printf ("\n");
-
     }
 
 }

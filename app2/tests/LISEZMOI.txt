@@ -46,20 +46,20 @@ Challenge (non nécessaire pour valider l'acte IV):
 Acte V:
 =======
 
-- exec
-- echanges
-- clones
+✓ exec
+✓ echanges
+✓ clones
 
 - compteur
-- boucle
+✓ boucle
 - boucle-sans-pile
 
-- rotations
+✓ rotations
 
-- ifignore
-- boucle-if
-- boucle-clone
-- langton
+✓ ifignore
+✓ boucle-if
+✓ boucle-clone
+✓ langton
 
 
 Acte Challenges:
