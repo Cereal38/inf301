@@ -126,6 +126,8 @@ void additionner (pile_t * pile)
 	cel1 = depiler (pile);
 	cel2 = depiler (pile);
 	empiler(pile, (valeurPile) (cel1->valeur.i + cel2->valeur.i), INT);
+	free(cel1);
+	free(cel2);
 
 }
 
@@ -136,6 +138,8 @@ void soustraire (pile_t * pile)
 	cel1 = depiler (pile);
 	cel2 = depiler (pile);
 	empiler(pile, (valeurPile) (cel1->valeur.i - cel2->valeur.i), INT);
+	free(cel1);
+	free(cel2);
 }
 
 void multiplier (pile_t * pile)
@@ -145,6 +149,8 @@ void multiplier (pile_t * pile)
 	cel1 = depiler (pile);
 	cel2 = depiler (pile);
 	empiler(pile, (valeurPile) (cel1->valeur.i * cel2->valeur.i), INT);
+	free(cel1);
+	free(cel2);
 }
 
 void afficherPile (pile_t * pile)
@@ -182,6 +188,9 @@ void afficherPile (pile_t * pile)
 		cel = cel->suivant;
 	}
 	printf ("\n");
+
+	free(cel);
+
 }
 
 
@@ -192,6 +201,9 @@ void inverseDeuxPremiers (pile_t * pile) {
 	cel2 = depiler (pile);
 	empiler(pile, cel1->valeur, cel1->type);
 	empiler(pile, cel2->valeur, cel2->type);
+
+	free(cel1);
+	free(cel2);
 }
 
 
@@ -459,6 +471,8 @@ void interpreteSequence(sequence_t * seq, int * ret, pile_t * pile) {
         printf ("\n");
 
     }
+
+	free(cel);
 
 }
 // --- End others --- //
