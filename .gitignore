@@ -29,3 +29,11 @@ app1/client-oneMillion
 app1/client-oneMillion.o
 app1/client-lostCause
 app1/client-lostCause.o
+
+app2/main
+app2/main.o
+app2/curiosity.o
+app2/interprete.o
+app2/listes.o
+app2/asserts.o
+app2/tests/perfs
