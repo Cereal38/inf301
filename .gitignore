@@ -29,3 +29,12 @@ app1/client-oneMillion
 app1/client-oneMillion.o
 app1/client-lostCause
 app1/client-lostCause.o
+
+*.o
+acte1
+acte2
+acte3
+acte3b
+acte4
+main
+
