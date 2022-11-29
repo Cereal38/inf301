@@ -9,6 +9,9 @@
  */
 void analyse_arbre (arbre racine, int* nb_esp, int* nb_carac);
 
+// Créé le fichier .dot de l'arbre donné
+int generer_dot (arbre racine, char* nomFichier, int afficher);
+
 /* Recherche une espèce dans l'arbre et remplit seq avec la séquence de ses 
  * caractéristiques.
  *

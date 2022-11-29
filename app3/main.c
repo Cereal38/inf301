@@ -56,12 +56,13 @@ int main(int argc, char* argv[])
 
     affiche_arbre (mon_arbre);
 
+	// Génère le fichier .dot de l'arbre
+	generer_dot(mon_arbre, "arbre.dot", 1);
+
     analyse_arbre (mon_arbre, &nombre_especes, &nombre_caract);
 
     printf ("Nombre d'especes de l'arbre: %d\n", nombre_especes);
     printf ("Nombre de caractéristiques de l'arbre: %d\n", nombre_caract);
-
-
 
     return 0;
 }
