@@ -47,3 +47,4 @@ int ajouter_tete(liste_t* L, string c) { /* retourne 0 si OK, 1 sinon  */
 	return 0;
 }
 
+

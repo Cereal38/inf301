@@ -18,6 +18,24 @@ struct noeud_s {
     arbre droit;
 };
 
+// File d'arbres
+struct cellule_arbre {
+	arbre a;
+	struct cellule_arbre* suivant;
+};
+typedef struct cellule_arbre cellule_arbre_t;
+
+struct file {
+	cellule_arbre_t * tete;
+	cellule_arbre_t * queue;
+};
+typedef struct file file_t;
+
+// Fonctions sur la file
+void enfiler(file_t * file, arbre a);
+arbre * defiler(file_t * file);
+
+
 
 /* Crée un nouveau nœud et initialise ses champs à null */
 noeud* nouveau_noeud (void);
