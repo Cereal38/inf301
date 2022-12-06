@@ -88,7 +88,7 @@ int generer_dot (arbre racine, char * nomFichier, int afficher) {
 }
 
 
-/* ACTE II */
+/* ACTE 2 */
 /* Recherche l'espece dans l'arbre. Modifie la liste passée en paramètre pour y mettre les
  * caractéristiques. Retourne 0 si l'espèce a été retrouvée, 1 sinon.
  */
@@ -122,46 +122,91 @@ int rechercher_espece (arbre racine, char *espece, liste_t* seq)
 
 
 // Acte 3
+int est_feuille (arbre racine) {
+	return (racine->gauche == NULL && racine->droit == NULL);
+}
+
+int est_carac (arbre racine) {
+	return (racine->gauche != NULL || racine->droit != NULL);
+}
+
+// Créer un arbre
+arbre creer_arbre (char * valeur, arbre gauche, arbre droit) {
+
+	arbre a = (arbre) malloc(sizeof(noeud));
+	a->valeur = valeur;
+	a->gauche = gauche;
+	a->droit = droit;
+
+	return a;
+}
+
+
+// Ajouter 
+
+
 /* Doit renvoyer 0 si l'espece a bien ete ajoutee, 1 sinon, et ecrire un 
  * message d'erreur.
- */
-int ajouter_espece (arbre* a, char *espece, cellule_t* seq) {
+*/
+int ajouter_espece_rec (arbre* a, char *espece, cellule_t* seq) {
 
-	// L'arbre est vide et il n'y a plus de caractéristiques à ajouter
+	// L'arbre est vide et il reste des caractéristiques à ajouter
+	// On ajoute la caractéristique
+	if ((*a) == NULL && seq != NULL) {
+		(*a) = creer_arbre(seq->val, NULL, creer_arbre(espece, NULL, NULL));
+		ajouter_espece_rec(&((*a)->droit), espece, seq->suivant);
+	}
+
+	// L'arbre est vide et il ne reste plus de caractéristiques à ajouter
+	// On ajoute l'espèce
 	if ((*a) == NULL && seq == NULL) {
-		printf("L'arbre est vide et il n'y a plus de caractéristiques à ajouter.\n");
-		(*a) = (arbre) malloc (sizeof(noeud));
-		(*a)->valeur = strdup(espece);
-		(*a)->gauche = NULL;
-		(*a)->droit = NULL;
-		printf("L'espèce %s a bien été ajoutée.\n\n", (*a)->valeur);
+		(*a) = creer_arbre(espece, NULL, NULL);
+	}
+
+	// L'arbre est une feuille et il reste des caractéristiques à ajouter
+	// On remplace l'espece par la caractéristique et on ajoute les deux espèces
+	if (est_feuille(*a) && seq != NULL) {
+
+		char * especeTemp = (*a)->valeur;
+
+		if (especeTemp == espece) { (*a) = creer_arbre(seq->val, NULL, creer_arbre(espece, NULL, NULL)); }
+		else { (*a) = creer_arbre(seq->val, creer_arbre(especeTemp, NULL, NULL), creer_arbre(espece, NULL, NULL)); }
+
+		ajouter_espece_rec(&((*a)->droit), espece, seq->suivant);
+
 		return 0;
 	}
 
-	// L'arbre est vide et il reste des caractéristiques à ajouter
-	if ((*a) == NULL && seq != NULL) {
-		printf("L'arbre est vide et il reste des caractéristiques à ajouter.\n");
-		(*a) = (arbre) malloc (sizeof(noeud));
-		(*a)->valeur = strdup(seq->val);
-		(*a)->gauche = NULL;
-		(*a)->droit = NULL;
-		printf("La caractéristique %s a bien été ajoutée.\n", (*a)->valeur);
-		return ajouter_espece(&(*a)->gauche, espece, seq->suivant);
-	}
-
-	// L'arbre n'est pas vide et la caractéristique est en tête de la séquence
-	if (strcmp(seq->val, (*a)->valeur) == 0) {
-		printf("L'arbre n'est pas vide et la caractéristique est en tête de la séquence.\n");
-		ajouter_espece(&((*a)->droit), espece, seq->suivant);
-	}
-
-	// L'arbre n'est pas vide et la caractéristique n'est pas en tête de séquence
-	else {
-		printf("L'arbre n'est pas vide et la caractéristique n'est pas en tête de séquence.\n");
-		ajouter_espece(&((*a)->gauche), espece, seq);
+	// L'arbre est une caractéristique et il reste des caractéristiques à ajouter
+	// On ajoute la caractéristique
+	if (est_carac(*a) && seq != NULL) {
+		if (strcmp((*a)->valeur, seq->val) == 0) {
+			ajouter_espece_rec(&((*a)->droit), espece, seq->suivant);
+		} else {
+			ajouter_espece_rec(&((*a)->gauche), espece, seq);
+		}
 	}
 
     return 0;
+}
+
+int ajouter_espece (arbre* a, char *espece, cellule_t* seq) {
+
+	// On vérifie que l'espèce n'est pas déjà présente dans l'arbre
+	liste_t* liste = (liste_t*) malloc (sizeof(liste_t));
+	liste->tete = NULL;
+	if (rechercher_espece(*a, espece, liste) == 0) {
+		printf("L'espèce %s est déjà présente dans l'arbre.\n\n", espece);
+		return 1;
+	}
+
+	// On ajoute l'espèce
+	return ajouter_espece_rec(a, espece, seq);
+
+	/*
+	// On affiche l'arbre
+	generer_dot(*a, "arbre.dot", 1);
+	*/
 }
 
 /* Doit afficher la liste des caractéristiques niveau par niveau, de gauche
