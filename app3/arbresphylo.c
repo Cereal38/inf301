@@ -83,9 +83,11 @@ int generer_dot (arbre racine, char * nomFichier, int afficher) {
 	fclose(fichier);
 
 	// Génère le svg de l'image, supprime le .dot et affiche l'image si demandé
-	system("dot -Tsvg arbre.dot -o arbre.svg");
-	system("rm arbre.dot");
-	system("firefox arbre.svg");
+	if (afficher) {
+		system("dot -Tsvg arbre.dot -o arbre.svg");
+		system("rm arbre.dot");
+		system("firefox arbre.svg");
+	}
 
 	return 0;
 
@@ -215,39 +217,39 @@ int ajouter_espece (arbre* a, char *espece, cellule_t* seq) {
  * Appeler la fonction avec fout=stdin pour afficher sur la sortie standard.
 */
 void afficher_par_niveau (arbre racine, FILE* fout) {
+    // Si l'arbre est vide stop
+    if (racine == NULL) { return; }
 
-	// Si l'arbre est vide stop
-	if (racine == NULL) { return; }
+    // Création de la file
+    file_t* file = (file_t*) malloc(sizeof(file_t));
 
-	arbre * element = (arbre*) malloc(sizeof(noeud));
+    // Initialisation de la file
+    file->tete = NULL;
+    file->queue = NULL;
 
-	// Création de la file
-	file_t* file = (file_t*) malloc(sizeof(file_t));
+    // On ajoute la racine à la file
+    enfiler(file, racine);
 
-	// Initialisation de la file
-	file->tete = NULL;
-	file->queue = NULL;
+    // Tant que la file n'est pas vide
+    while (file->tete != NULL) {
+        arbre * a = defiler(file);
+        arbre b = *a;
 
-	// On ajoute la racine à la file
-	enfiler(file, racine);
+        // On affiche la valeur de l'élément si l'élément n'est pas une feuille
+        if (b->gauche != NULL || b->droit != NULL) {
+            fprintf(fout, "%s ", b->valeur);
+        }
 
-	// Tant que la file n'est pas vide
-	while (file->tete != NULL) {
+        // On ajoute les enfants à la file
+        if (b->gauche != NULL) { enfiler(file, b->gauche); }
+        if (b->droit != NULL) { enfiler(file, b->droit); }
+    }
 
-		element = defiler(file);
-
-		// On affiche la valeur de l'élément
-		fprintf(fout, "%s ", (*element)->valeur);
-
-		// On ajoute les enfants à la file
-		if ((*element)->gauche != NULL) { enfiler(file, (*element)->gauche); }
-		if ((*element)->droit != NULL) { enfiler(file, (*element)->droit); }
-
-	}
-
-	printf("\n");
-
+	// On affiche l'arbre
+	generer_dot(racine, "arbre.dot", 1);
 }
+
+
 
 // Acte 4
 int ajouter_carac(arbre* a, char* carac, cellule_t* seq) {

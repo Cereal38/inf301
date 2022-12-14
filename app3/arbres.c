@@ -32,43 +32,39 @@ static char next_char = ' ';
     }
 
 // Fonctions sur la file
-void enfiler (file_t * file, arbre a) {
+void enfiler(file_t * file, arbre a) {
+    // Création de l'arbre à ajouter
+    cellule_arbre_t * new = (cellule_arbre_t *) malloc(sizeof(cellule_arbre_t));
+    new->a = a;
+    new->suivant = NULL;
 
-	// Création de l'arbre à ajouter
-	cellule_arbre_t new = (cellule_arbre_t) malloc (sizeof(cellule_arbre_t));
-	new->valeur = a->valeur;
-	new->gauche = a->gauche;
-	new->droit = a->droit;
-
-	// Cas de la file vide
-	if (file->tete == NULL) {
-		file->tete = &new;
-		file->queue = &new;
-	}
-
-	file->queue->suivant = &new;
-	file->queue = &new;
-
+    // Cas de la file vide
+    if (file->tete == NULL) {
+        file->tete = new;
+        file->queue = new;
+    } else {
+        file->queue->suivant = new;
+        file->queue = new;
+    }
 }
 
-arbre * defiler (file_t * file) {
 
-	// Cas de la file vide
-	if (file->tete == NULL) { return NULL; }
+arbre * defiler(file_t * file) {
+    // Cas de la file vide
+    if (file->tete == NULL) { return NULL; }
 
-	// On récupère la valeur à retourner
-	abre * a = (arbre*) malloc (sizeof(noeud));
+    // On récupère la valeur à retourner
+    arbre * a = (arbre *) malloc(sizeof(noeud));
+    *a = file->tete->a;
 
-	a->valeur = file->tete->valeur;
-	a->gauche = file->tete->gauche;
-	a->droit = file->tete->droit;
+    // On supprime le premier élément de la file
+    cellule_arbre_t * temp = file->tete;
+    file->tete = file->tete->suivant;
+    free(temp);
 
-	// On supprime le premier élément de la file
-	file->tete = file->tete->suivant;
-
-	return a;
-
+    return a;
 }
+
 
 /* Fonction récursive qui lit un sous-arbre */
 /* Appelée une fois à la racine (debut du fichier), puis récursivement
