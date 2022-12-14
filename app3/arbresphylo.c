@@ -215,8 +215,12 @@ int ajouter_espece (arbre* a, char *espece, cellule_t* seq) {
 /* Doit afficher la liste des caractéristiques niveau par niveau, de gauche
  * à droite, dans le fichier fout.
  * Appeler la fonction avec fout=stdin pour afficher sur la sortie standard.
-*/
+ *
+ * PS : La fonction ne passe pas les tests mais je n'ai pas réussi à en comprendre la raison.
+ * Elle affiche bien toutes les caractéristiques dans l'ordre du parcours en largeur.
+ */
 void afficher_par_niveau (arbre racine, FILE* fout) {
+
     // Si l'arbre est vide stop
     if (racine == NULL) { return; }
 
@@ -245,15 +249,136 @@ void afficher_par_niveau (arbre racine, FILE* fout) {
         if (b->droit != NULL) { enfiler(file, b->droit); }
     }
 
-	// On affiche l'arbre
-	generer_dot(racine, "arbre.dot", 1);
 }
 
 
 
 // Acte 4
+int possede_carac (arbre racine, char *carac) {
+
+	// Si l'arbre est vide stop
+	if (racine == NULL) { return 0; }
+
+	// Si l'arbre est une feuille stop
+	if (est_feuille(racine)) { return 0; }
+
+	// Si l'arbre est une caractéristique
+	if (est_carac(racine)) {
+
+		// Si la caractéristique est présente dans l'arbre
+		if (strcmp(racine->valeur, carac) == 0) { return 1; }
+
+		// Si la caractéristique n'est pas présente dans l'arbre
+		else {
+			return (possede_carac(racine->gauche, carac) || possede_carac(racine->droit, carac));
+		}
+	}
+
+	return 0;
+}
+
+
+int verifier_clade (arbre racine, char *espece) {
+	
+	// Si l'arbre est vide stop
+	if (racine == NULL) { return 0; }
+
+	// Si l'arbre est une feuille
+	if (est_feuille(racine)) {
+
+		// Si l'espèce est présente dans l'arbre
+		if (strcmp(racine->valeur, espece) == 0) { return 1; }
+
+		// Si l'espèce n'est pas présente dans l'arbre
+		else { return 0; }
+	}
+
+	// Si l'arbre est une caractéristique
+	if (est_carac(racine)) {
+
+		// Si l'espèce est présente dans l'arbre
+		if (verifier_clade(racine->gauche, espece) == 1) { return 1; }
+		if (verifier_clade(racine->droit, espece) == 1) { return 1; }
+
+		// Si l'espèce n'est pas présente dans l'arbre
+		else { return 0; }
+	}
+
+	return 0;
+
+}
+
+void ajouter_carac_rec(arbre * racine, char * carac, cellule_t * seq) {
+	
+	// Si l'arbre est vide stop
+	if (*racine == NULL) { return; }
+
+	// Si l'arbre est une feuille
+	if (est_feuille(*racine)) {
+
+		// Si la caractéristique est présente dans l'arbre
+		if (strcmp((*racine)->valeur, carac) == 0) { return; }
+
+		// Si la caractéristique n'est pas présente dans l'arbre
+		else {
+			(*racine) = creer_arbre(seq->val, creer_arbre(carac, NULL, NULL), creer_arbre((*racine)->valeur, NULL, NULL));
+			return;
+		}
+	}
+
+	// Si l'arbre est une caractéristique
+	if (est_carac(*racine)) {
+
+		// Si la caractéristique est présente dans l'arbre
+		if (strcmp((*racine)->valeur, carac) == 0) { return; }
+
+		// Si la caractéristique n'est pas présente dans l'arbre
+		else {
+			ajouter_carac_rec(&((*racine)->gauche), carac, seq);
+			ajouter_carac_rec(&((*racine)->droit), carac, seq->suivant);
+			return;
+		}
+	}
+
+	return;
+}
+
 int ajouter_carac(arbre* a, char* carac, cellule_t* seq) {
-   printf ("<<<<< À faire: fonction ajouter_carac fichier " __FILE__ "\n >>>>>");
-   return 0;
+    // Si l'arbre est vide, on ne peut pas ajouter de caractéristique
+    if (*a == NULL) {
+        printf("Ne peut ajouter %s: ne forme pas un sous-arbre.\n", carac);
+        return 0;
+    }
+
+    // Si l'arbre n'est pas vide, on parcourt les noeuds de l'arbre en utilisant
+    // une file pour parcourir l'arbre en largeur
+    arbre * element = (arbre*) malloc(sizeof(noeud));
+    file_t* file = (file_t*) malloc(sizeof(file_t));
+    file->tete = NULL;
+    file->queue = NULL;
+    enfiler(file, *a);
+
+    // On parcourt les noeuds de l'arbre en utilisant la file
+    while (file->tete != NULL) {
+        element = defiler(file);
+        arbre b = *element;
+
+        // Si le noeud courant possède la nouvelle caractéristique, on ajoute ses enfants à la file
+        if (possede_carac(b, carac)) {
+            if (b->gauche != NULL) { enfiler(file, b->gauche); }
+            if (b->droit != NULL) { enfiler(file, b->droit); }
+        }
+    }
+
+    // Une fois que la file est vide, on vérifie si les espèces qui possèdent la nouvelle caractéristique
+    // forment bien un clade. Pour cela, on vérifie que tous les noeuds de l'arbre possèdent la nouvelle caractéristique
+	// Si c'est le cas, on ajoute la nouvelle caractéristique à l'arbre
+	if (verifier_clade(*a, carac)) {
+		ajouter_carac_rec(a, carac, seq);
+		return 1;
+	} else {
+		printf("Ne peut ajouter %s: ne forme pas un clade.\n", carac);
+		return 0;
+	}
 }
 

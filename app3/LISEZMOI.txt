@@ -13,10 +13,9 @@ Nom - prénom : BRUN-COSME-GAZOT Guillaue
 Si vous avez des commentaires, remarques etc. pour le rendu, vous pouvez les 
 mettre ici:
 
-...
-...
-...
-
+Pour l'acte 3b :
+	La fonction ne passe pas les tests mais je n'ai pas réussi à en comprendre la raison.
+	Elle affiche bien toutes les caractéristiques dans l'ordre du parcours en largeur.
 
 
 Travail à effectuer:
